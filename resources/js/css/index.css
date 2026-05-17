@@ -13,8 +13,8 @@ body {
 }
 
 .container {
-    width: 100vw;
-    height: 100px;
+    width: 100%;
+    height: 100%;
     margin: 0 auto;
     padding: 0 20px;
 }
@@ -25,11 +25,12 @@ header {
     background-color: transparent;
     position: fixed;
     top: 0;
-    z-index: 5;
+    left: 0;
+    width: 100%;
+    z-index: 100;
     transition: all 0.3s ease;
     box-shadow: 0 2px 15px rgba(0, 0, 0, 0.6);
-    min-height: 100px;
-    height: 16vh;
+    height: 90px;
 }
 
 header.header-scrolled {
@@ -45,56 +46,66 @@ header.header-scrolled .header-btn:hover {
     color: #fff;
 }
 
+/* header-inner: fila completa, centrada verticalmente */
 .header-inner {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1300px;
+    height: 100%;
     margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
     position: relative;
-    padding: 0 12px;
+    padding: 0 24px;
 }
 
+/* Lados izquierdo y derecho ocupan igual espacio */
+.header-left,
 .header-right {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
-    flex: 1 0 42%;
-    margin-top: 40px;
-    margin-right: 0;
+    flex: 1;
+    margin-top: 0;
 }
 
 .header-left {
-    display: flex;
-    align-items: center;
-    flex: 1 0 42%;
-    margin-top: 40px;
-    margin-left: -80px;
+    justify-content: flex-start;
+    margin-left: 0;
+}
+
+.header-right {
+    justify-content: flex-end;
+    margin-right: 0;
 }
 
 .header-right nav ul {
     justify-content: flex-end;
     width: 100%;
-    margin-left: 50px;
+    margin-left: 0;
 }
 
+/* Logo centrado absolutamente respecto al header-inner */
 .header-center {
     position: absolute;
     left: 50%;
-    transform: translateX(-50%);
+    top: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 0;
+    pointer-events: none;
+}
+
+.header-center img {
+    pointer-events: all;
 }
 
 nav ul {
     display: flex;
     list-style: none;
     align-items: center;
-    font-size: 1.25rem;
-    gap: 50px;
+    font-size: 1.1rem;
+    gap: 32px;
 }
 
 header button {
@@ -117,10 +128,11 @@ header button:hover {
     background: transparent;
     border: 1px solid transparent;
     color: #fff;
-    padding: 3px 14px;
+    padding: 4px 14px;
     border-radius: 24px;
-    font-size: 1.3rem;
+    font-size: 1.15rem;
     cursor: pointer;
+    font-family: "Cormorant Garamond", serif;
     transition: background 0.25s, color 0.25s, border-color 0.25s;
 }
 
@@ -129,19 +141,21 @@ header button:hover {
     color: #fff;
 }
 
+/* Logo: cabe exactamente dentro de los 90px de header */
 .logo {
-    width: 100px;
-    height: 100px;
-    margin-top: 45px;
+    width: 72px;
+    height: 72px;
+    margin-top: 0;
+    display: block;
 }
 
 /* ===== CARRUSEL ===== */
 
 .contenedor-carrusel {
     position: relative;
-    top: -148px;
+    top: -90px;
     width: 100%;
-    height: 121vh;
+    height: calc(100vh + 90px);
     overflow: hidden;
 }
 
@@ -373,7 +387,8 @@ header button:hover {
 
 .habitaciones-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, auto);
     gap: 30px;
 }
 
@@ -732,7 +747,7 @@ header button:hover {
 
 footer {
     width: 100%;
-    height: 16vh;
+    height: 90px;
     background: #f0eadf;
     display: flex;
     justify-content: space-around;
@@ -740,8 +755,10 @@ footer {
 }
 
 .logo-footer {
-    width: 100px;
-    height: 100px;
+    width: 72px;
+    height: 72px;
+    margin-top: 0;
+    display: block;
 }
 
 /* ===== HEADER SCROLLED (alias) ===== */
@@ -761,4 +778,1152 @@ header.scrolled .header-btn {
 header.scrolled nav ul li a:hover,
 header.scrolled .header-btn:hover {
     color: #fff;
+}
+
+
+
+/* ===================================================
+   HAMBURGER MENU
+   =================================================== */
+
+.hamburger-btn {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 10;
+    margin-top: 0;
+}
+
+.hamburger-line {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: #fff;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    transform-origin: center;
+}
+
+header.header-scrolled .hamburger-line {
+    background: #333;
+}
+
+.hamburger-btn.is-open .hamburger-line:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+
+.hamburger-btn.is-open .hamburger-line:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+
+.hamburger-btn.is-open .hamburger-line:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Backdrop suave */
+.mobile-menu-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0);
+    z-index: 101;
+    pointer-events: none;
+    transition: background 0.3s ease;
+}
+
+.mobile-menu-backdrop.mobile-menu--open {
+    background: rgba(0, 0, 0, 0.18);
+    pointer-events: all;
+}
+
+/* ── Dropdown panel — sale desde el top, pegado al header ── */
+.mobile-menu {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: #faf7f2;
+    z-index: 102;
+    flex-direction: column;
+    border-radius: 0 0 20px 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.16);
+    clip-path: inset(0 0 100% 0);
+    transition: clip-path 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-menu.mobile-menu--open {
+    clip-path: inset(0 0 0% 0);
+}
+
+/* Cabecera: logo centrado + X a la derecha */
+.mobile-menu-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 10px 20px;
+    border-bottom: 1px solid rgba(110, 90, 19, 0.12);
+    background: #f0eadf;
+    min-height: 56px;
+}
+
+.mobile-menu-header-logo-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.mobile-menu-logo {
+    width: 46px;
+    height: 46px;
+    object-fit: contain;
+}
+
+.mobile-menu-brand {
+    display: none;
+}
+
+.mobile-menu-close {
+    display: flex;
+    position: absolute;
+    top: 50%;
+    left: 16px;
+    transform: translateY(-50%);
+    background: rgba(110, 90, 19, 0.1);
+    border: none;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: #6e5a13;
+    font-weight: 600;
+    transition: background 0.2s, color 0.2s;
+    line-height: 1;
+}
+
+.mobile-menu-close:hover {
+    background: #6e5a13;
+    color: #fff;
+}
+
+/* Nav links */
+.mobile-menu nav {
+    padding: 2px 0;
+}
+
+.mobile-menu nav ul {
+    flex-direction: column;
+    gap: 0;
+    list-style: none;
+    padding: 0;
+}
+
+.mobile-menu nav ul li a {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #2a2a2a;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 20px;
+    transition: all 0.18s ease;
+    position: relative;
+    white-space: nowrap;
+}
+
+.mobile-menu nav ul li a::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 15%;
+    right: 15%;
+    height: 1px;
+    background: rgba(110, 90, 19, 0.1);
+}
+
+.mobile-menu nav ul li:last-child a::after {
+    display: none;
+}
+
+.mobile-menu nav ul li a:hover {
+    color: #6e5a13;
+    background: rgba(110, 90, 19, 0.05);
+}
+
+/* Footer con botones side by side */
+.mobile-menu-footer {
+    display: flex;
+    gap: 8px;
+    padding: 8px 12px 10px;
+    border-top: 1px solid rgba(110, 90, 19, 0.12);
+    background: rgba(110, 90, 19, 0.02);
+}
+
+.mobile-menu-footer a {
+    flex: 1;
+    text-align: center;
+    padding: 7px 4px;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 0.62rem;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 50px;
+    transition: all 0.22s ease;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.mobile-menu-footer .btn-login {
+    color: #6e5a13;
+    border: 1.5px solid #6e5a13;
+    background: transparent;
+}
+
+.mobile-menu-footer .btn-login:hover {
+    background: #6e5a13;
+    color: #fff;
+}
+
+.mobile-menu-footer .btn-register {
+    background: #6e5a13;
+    color: #fff;
+    border: 1.5px solid #6e5a13;
+}
+
+.mobile-menu-footer .btn-register:hover {
+    background: #5a4a0f;
+}
+
+/* ===================================================
+   RESPONSIVE — 2560×1440  (≥ 2560px)
+   =================================================== */
+@media (min-width: 2560px) {
+    header {
+        height: 110px;
+    }
+
+    .logo {
+        width: 90px;
+        height: 90px;
+    }
+
+    .header-inner {
+        max-width: 2200px;
+    }
+
+    nav ul {
+        gap: 60px;
+        font-size: 1.4rem;
+    }
+
+    .header-btn {
+        font-size: 1.4rem;
+        padding: 6px 20px;
+    }
+
+    .contenedor-carrusel {
+        top: -110px;
+        height: calc(100vh + 110px);
+    }
+
+    .slide-content h1 {
+        font-size: 6rem;
+    }
+
+    .slide-content .btn {
+        font-size: 1.2rem;
+        padding: 18px 52px;
+    }
+
+    .servicios-container {
+        max-width: 2400px;
+        margin-left: 160px;
+        padding: 80px 60px;
+    }
+
+    .servicio-card h3 {
+        font-size: 2rem;
+    }
+
+    .servicio-card p {
+        font-size: 1.4rem;
+    }
+
+    .habitaciones-section {
+        max-width: 2400px;
+        margin-left: 160px;
+        margin-top: 240px;
+    }
+
+    .habitaciones-grid {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, auto);
+        gap: 40px;
+    }
+
+    .habitacion-imagen {
+        height: 400px;
+    }
+
+    .habitacion-nombre {
+        font-size: 2rem;
+    }
+
+    .habitacion-detalles {
+        font-size: 1.3rem;
+    }
+
+    .section-title {
+        font-size: 2.8rem;
+    }
+
+    .section-subtitle {
+        font-size: 1.5rem;
+    }
+
+    .section-title-2 {
+        font-size: 2.8rem;
+        margin-left: 160px;
+    }
+
+    .section-subtitle-2 {
+        font-size: 1.5rem;
+        margin-left: 160px;
+    }
+
+    .porque-elegirnos-section {
+        min-height: 800px;
+        margin-top: 130px;
+    }
+
+    .contenido-razones {
+        padding: 100px;
+    }
+
+    .titulo-seccion {
+        font-size: 2.6rem;
+    }
+
+    .razon-contenido p {
+        font-size: 1.4rem;
+        line-height: 1.8;
+    }
+
+    .icono-razon {
+        width: 56px;
+        height: 56px;
+    }
+
+    .ubicacion-section {
+        max-width: 2400px;
+        margin-top: 220px;
+    }
+
+    .info-section {
+        padding-left: 140px;
+    }
+
+    .info-label {
+        font-size: 1.4rem;
+    }
+
+    .info-value {
+        font-size: 1.3rem;
+    }
+
+    .map-container {
+        height: 800px;
+        margin-left: 80px;
+    }
+
+    .testimonio-section {
+        min-height: 800px;
+    }
+
+    .reserva-titulo {
+        font-size: 4rem;
+    }
+
+    .reserva-subtitulo {
+        font-size: 1.3rem;
+    }
+
+    .btn-reserva {
+        font-size: 1.2rem;
+        padding: 22px 64px;
+    }
+
+    .testimonio-texto {
+        font-size: 1.4rem;
+    }
+
+    .autor-info h4 {
+        font-size: 1.6rem;
+    }
+
+    .autor-info p {
+        font-size: 1.2rem;
+    }
+
+    .logo-footer {
+        width: 130px;
+        height: 130px;
+    }
+}
+
+/* ===================================================
+   RESPONSIVE — 4K / 2K  (1920px – 2559px)
+   =================================================== */
+@media (min-width: 1920px) and (max-width: 2559px) {
+    .header-inner {
+        max-width: 1700px;
+    }
+
+    .contenedor-carrusel {
+        top: -90px;
+        height: calc(100vh + 90px);
+    }
+
+    .slide-content h1 {
+        font-size: 5.5rem;
+    }
+
+    .servicios-container {
+        max-width: 1900px;
+        margin-left: 120px;
+    }
+
+    .habitaciones-section {
+        max-width: 1900px;
+        margin-left: 120px;
+    }
+
+    .section-title-2,
+    .section-subtitle-2 {
+        margin-left: 120px;
+    }
+
+    .ubicacion-section {
+        max-width: 1900px;
+    }
+}
+
+/* ===================================================
+   RESPONSIVE — Large desktop  (1280px – 1919px)
+   =================================================== */
+@media (min-width: 1280px) and (max-width: 1919px) {
+    .header-inner {
+        max-width: 1200px;
+    }
+}
+
+/* ===================================================
+   RESPONSIVE — Medium desktop / large tablet landscape
+   (1024px – 1279px)
+   =================================================== */
+@media (min-width: 1024px) and (max-width: 1279px) {
+    .header-inner {
+        max-width: 960px;
+    }
+
+    nav ul {
+        gap: 28px;
+        font-size: 1.05rem;
+    }
+
+    .header-btn {
+        font-size: 1.05rem;
+        padding: 3px 10px;
+    }
+
+    .servicios-container {
+        margin-left: 30px;
+        padding: 50px 30px;
+    }
+
+    .habitaciones-section {
+        margin-left: 30px;
+    }
+
+    .habitaciones-grid {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, auto);
+    }
+
+    .section-subtitle-2,
+    .section-title-2 {
+        margin-left: 60px;
+    }
+
+    .info-section {
+        padding-left: 50px;
+        margin-right: -100px;
+    }
+
+    .porque-elegirnos-section {
+        margin-top: 140px;
+    }
+
+    .ubicacion-section {
+        margin-top: 160px;
+    }
+
+    .contenido-razones {
+        padding: 60px 50px;
+    }
+}
+
+/* ===================================================
+   RESPONSIVE — Tablet portrait + small landscape
+   (768px – 1023px)  → HAMBURGER
+   =================================================== */
+@media (max-width: 1023px) {
+    /* --- Header hamburger --- */
+    .header-left,
+    .header-right {
+        display: none;
+    }
+
+    .hamburger-btn {
+        display: flex;
+    }
+
+    .mobile-menu-backdrop {
+        display: block;
+    }
+
+    .mobile-menu {
+        display: flex;
+    }
+
+    header {
+        height: 70px;
+    }
+
+    .logo {
+        width: 54px;
+        height: 54px;
+        margin-top: 0;
+    }
+
+    .header-inner {
+        padding: 0 16px;
+    }
+
+    /* header-center sigue siendo absoluto — solo cambia tamaño */
+    .header-center {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    /* Carousel */
+    .contenedor-carrusel {
+        top: -70px;
+        height: calc(100vh + 70px);
+    }
+
+    .slide-content h1 {
+        font-size: 2.8rem;
+    }
+
+    .slide-content {
+        padding: 30px 20px;
+        bottom: -8%;
+    }
+
+    /* Servicios */
+    .servicios-container {
+        margin-left: 20px;
+        margin-right: 20px;
+        margin-top: -60px;
+        margin-bottom: -60px;
+        padding: 40px 20px;
+    }
+
+    .servicio-icon {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Habitaciones */
+    .habitaciones-section {
+        margin-left: 20px;
+        margin-right: 20px;
+        margin-top: 120px;
+    }
+
+    .habitaciones-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(3, auto);
+        gap: 20px;
+    }
+
+    .section-subtitle-2,
+    .section-title-2 {
+        margin-left: 0;
+        text-align: center;
+    }
+
+    /* Sobre nosotros */
+    .porque-elegirnos-section {
+        grid-template-columns: 1fr;
+        margin-top: 120px;
+        margin-bottom: 0;
+    }
+
+    .imagen-hotel {
+        height: 350px;
+    }
+
+    .contenido-razones {
+        padding: 60px 40px;
+    }
+
+    /* Ubicacion */
+    .ubicacion-section {
+        margin-top: 100px;
+        padding: 0 20px;
+    }
+
+    .content-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+    .info-section {
+        padding-left: 30px;
+        padding-right: 30px;
+        margin-right: 0;
+        border-right: none;
+        border-bottom: 1px solid #e0e0e0;
+        padding-bottom: 30px;
+    }
+
+    .map-container {
+        margin-left: 0;
+        height: 400px;
+        margin-top: 20px;
+    }
+
+    /* Testimonio */
+    .testimonio-section {
+        grid-template-columns: 1fr;
+    }
+
+    .lado-reserva {
+        min-height: 400px;
+    }
+
+    .fondo-reserva {
+        position: relative;
+        min-height: 400px;
+    }
+
+    .reserva-contenido {
+        height: auto;
+    }
+
+    /* Info ubicación — títulos */
+    .section-subtitle-2,
+    .section-title-2 {
+        margin-left: 0;
+    }
+}
+
+/* ===================================================
+   RESPONSIVE — Mobile large  (430px – 767px)
+   =================================================== */
+@media (max-width: 767px) {
+    header {
+        height: 60px;
+    }
+
+    .logo {
+        width: 46px;
+        height: 46px;
+        margin-top: 0;
+    }
+
+    .hamburger-btn {
+        margin-top: 0;
+    }
+
+    /* Carousel */
+    .contenedor-carrusel {
+        top: -60px;
+        height: calc(100svh + 60px);
+    }
+
+    .slide-content h1 {
+        font-size: 2rem;
+        margin-bottom: 18px;
+    }
+
+    .slide-content {
+        padding: 20px 16px;
+        bottom: -5%;
+        max-width: 100%;
+    }
+
+    .slide-content .btn {
+        padding: 12px 28px;
+        font-size: 0.85rem;
+    }
+
+    /* Servicios */
+    .servicios-container {
+        margin-left: 16px;
+        margin-right: 16px;
+        margin-top: -40px;
+        margin-bottom: -40px;
+        padding: 30px 16px;
+    }
+
+    .servicios-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .servicio-icon {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Habitaciones */
+    .habitaciones-section {
+        margin-left: 16px;
+        margin-right: 16px;
+        margin-top: 80px;
+    }
+
+    .habitaciones-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .habitacion-imagen {
+        height: 220px;
+    }
+
+    .habitacion-content {
+        padding: 24px 20px;
+    }
+
+    .habitacion-nombre {
+        font-size: 1.3rem;
+    }
+
+    /* Sobre nosotros */
+    .porque-elegirnos-section {
+        margin-top: 80px;
+        grid-template-columns: 1fr;
+    }
+
+    .contenido-razones {
+        padding: 50px 24px;
+    }
+
+    .titulo-seccion {
+        font-size: 1.5rem;
+        margin-bottom: 30px;
+    }
+
+    .razon-item {
+        grid-template-columns: 40px 1fr;
+    }
+
+    .imagen-hotel {
+        height: 280px;
+    }
+
+    /* Ubicacion */
+    .ubicacion-section {
+        margin-top: 80px;
+        padding: 0 16px;
+        margin-bottom: 40px;
+    }
+
+    .content-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+    .info-section {
+        padding-left: 16px;
+        padding-right: 16px;
+        margin-right: 0;
+        border-right: none;
+        border-bottom: 1px solid #e0e0e0;
+        padding-bottom: 24px;
+    }
+
+    .map-container {
+        margin-left: 0;
+        height: 300px;
+        margin-top: 20px;
+    }
+
+    .section-subtitle-2,
+    .section-title-2 {
+        margin-left: 0;
+        text-align: left;
+        padding-left: 16px;
+    }
+
+    /* Testimonio */
+    .testimonio-section {
+        grid-template-columns: 1fr;
+    }
+
+    .lado-reserva {
+        min-height: 380px;
+    }
+
+    .fondo-reserva {
+        position: relative;
+        min-height: 380px;
+        padding: 40px 20px;
+    }
+
+    .reserva-contenido {
+        height: auto;
+        padding: 24px 20px;
+    }
+
+    .reserva-titulo {
+        font-size: 2.2rem;
+        margin-bottom: 24px;
+    }
+
+    .reserva-subtitulo {
+        font-size: 0.9rem;
+        margin-bottom: 20px;
+    }
+
+    .btn-reserva {
+        padding: 14px 36px;
+        font-size: 0.9rem;
+    }
+
+    .lado-testimonio {
+        padding: 40px 24px;
+    }
+
+    .testimonio-texto {
+        font-size: 1rem;
+    }
+
+    .autor-info h4 {
+        font-size: 1.1rem;
+    }
+
+    /* Footer */
+    footer {
+        height: 12vh;
+    }
+
+    .logo-footer {
+        width: 75px;
+        height: 75px;
+    }
+}
+
+
+/* ===================================================
+   RESPONSIVE — Mobile extra pequeño (≤ 320px)
+   =================================================== */
+@media (max-width: 320px) {
+    header {
+        height: 64px;
+    }
+
+    .logo {
+        width: 50px;
+        height: 50px;
+    }
+
+    .contenedor-carrusel {
+        top: -64px;
+        height: calc(100svh + 64px);
+    }
+
+    /* ── Menú dropdown 320px — todo en px para evitar zoom ── */
+    .mobile-menu {
+        border-radius: 0 0 12px 12px;
+    }
+
+    /* Hamburger pegado a la izquierda en 320px */
+    .header-inner {
+        padding-left: 0;
+        padding-right: 12px;
+    }
+
+    .hamburger-btn {
+        order: -1;
+        margin-right: auto;
+        margin-left: 0;
+        padding: 6px 8px;
+    }
+
+    .mobile-menu-header {
+        padding: 8px 14px 7px;
+        min-height: 48px;
+        gap: 3px;
+    }
+
+    .mobile-menu-logo {
+        width: 38px;
+        height: 38px;
+    }
+
+
+
+    .mobile-menu-close {
+        left: 10px;
+        width: 24px;
+        height: 24px;
+        font-size: 11px;
+    }
+
+    .mobile-menu nav {
+        padding: 0;
+    }
+
+    .mobile-menu nav ul li a {
+        font-size: 9px;
+        padding: 7px 14px;
+        letter-spacing: 1.8px;
+    }
+
+    .mobile-menu-footer {
+        padding: 6px 10px 8px;
+        gap: 5px;
+    }
+
+    .mobile-menu-footer a {
+        font-size: 8px;
+        padding: 6px 4px;
+        letter-spacing: 0.8px;
+    }
+
+    /* ── Resto de la página ── */
+    .slide-content h1 {
+        font-size: 1.3rem;
+        margin-bottom: 12px;
+    }
+
+    .slide-content {
+        padding: 12px 10px;
+    }
+
+    .slide-content .btn {
+        padding: 9px 20px;
+        font-size: 0.75rem;
+    }
+
+    .servicios-container {
+        margin-left: 10px;
+        margin-right: 10px;
+        padding: 20px 12px;
+    }
+
+    .habitaciones-section {
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-top: 60px;
+    }
+
+    .habitacion-content {
+        padding: 16px 12px;
+    }
+
+    .habitacion-nombre {
+        font-size: 1rem;
+    }
+
+    .habitacion-detalles {
+        font-size: 0.88rem;
+    }
+
+    .btn-reservar {
+        padding: 8px 24px;
+        font-size: 0.78rem;
+    }
+
+    .contenido-razones {
+        padding: 30px 14px;
+    }
+
+    .titulo-seccion {
+        font-size: 1rem;
+        letter-spacing: 1px;
+        margin-bottom: 20px;
+    }
+
+    .razon-contenido p {
+        font-size: 0.88rem;
+    }
+
+    .ubicacion-section {
+        margin-top: 60px;
+        padding: 0 10px;
+    }
+
+    .info-section {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .info-label {
+        font-size: 0.88rem;
+    }
+
+    .info-value {
+        font-size: 0.85rem;
+    }
+
+    .map-container {
+        height: 200px;
+    }
+
+    .lado-testimonio {
+        padding: 24px 14px;
+    }
+
+    .testimonio-texto {
+        font-size: 0.88rem;
+    }
+
+    .reserva-titulo {
+        font-size: 1.4rem;
+    }
+
+    .btn-reserva {
+        padding: 10px 24px;
+        font-size: 0.78rem;
+    }
+
+    .section-title {
+        font-size: 1.4rem;
+    }
+
+    .section-subtitle,
+    .section-subtitle-2 {
+        font-size: 0.88rem;
+    }
+
+    .section-title-2 {
+        font-size: 1.4rem;
+        padding-left: 10px;
+    }
+
+    .section-subtitle-2 {
+        padding-left: 10px;
+    }
+}
+
+/* ===================================================
+   RESPONSIVE — Mobile small  (≤ 375px)
+   =================================================== */
+@media (max-width: 375px) {
+    .slide-content h1 {
+        font-size: 1.7rem;
+    }
+
+    .titulo-seccion {
+        font-size: 1.3rem;
+        letter-spacing: 1px;
+    }
+
+    .contenido-razones {
+        padding: 40px 18px;
+    }
+
+    .razon-contenido p {
+        font-size: 1rem;
+    }
+
+    .reserva-titulo {
+        font-size: 1.8rem;
+    }
+
+    .habitacion-card {
+        border-radius: 8px;
+    }
+}
+
+/* ===================================================
+   RESPONSIVE — Landscape phones  (height ≤ 500px)
+   =================================================== */
+@media (max-height: 500px) and (orientation: landscape) {
+    .contenedor-carrusel {
+        top: -56px;
+        height: calc(100svh + 56px);
+        min-height: 420px;
+    }
+
+    .slide-content {
+        bottom: 0;
+        padding: 16px;
+    }
+
+    .slide-content h1 {
+        font-size: 1.5rem;
+        margin-bottom: 12px;
+    }
+
+    .mobile-menu nav ul {
+        gap: 16px;
+    }
+
+    .mobile-menu nav ul li a {
+        font-size: 1.4rem;
+    }
+
+    header {
+        height: 56px;
+    }
+
+    .logo {
+        width: 42px;
+        height: 42px;
+        margin-top: 0;
+    }
+
+    .hamburger-btn {
+        margin-top: 0;
+    }
+}
+
+/* ===================================================
+   RESPONSIVE — Icon fix across sizes
+   =================================================== */
+.icon-btn img {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+}
+
+.autor-avatar img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
 }

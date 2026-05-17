@@ -9,16 +9,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cal+Sans&display=swap" rel="stylesheet">
-  
 
-  <link rel="stylesheet" href="{{ asset('css/style-clientes.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/style-admin.css') }}">
+
   <link rel="shortcut icon" href="{{ asset('images/logo.png') }}">
 
   @stack('styles')
 </head>
 <body>
 
-{{-- ═══════════════ SIDEBAR ═══════════════ --}}
 <aside class="sidebar">
   <div class="sidebar-logo">
     <img src="{{ asset('images/logo.png') }}" alt="Hotel Sueño Real" class="logo-img">
@@ -26,27 +25,33 @@
 
   <ul class="nav-links">
     <li>
-      <a href="{{ route('cliente.dashboard') }}"
-         @class(['active' => request()->routeIs('cliente.dashboard')])>
+      <a href="{{ route('admin.dashboard') }}"
+         @class(['active' => request()->routeIs('admin.dashboard')])>
         <span class="icon">⌂</span> Inicio
       </a>
     </li>
     <li>
-      <a href="{{ route('cliente.reservas') }}"
-         @class(['active' => request()->routeIs('cliente.reservas')])>
-        <span class="icon">⁘</span> Mis reservas
+      <a href="{{ route('admin.checks') }}"
+         @class(['active' => request()->routeIs('admin.checks*')])>
+        <span class="icon">↻</span> Ingresos
       </a>
     </li>
     <li>
-      <a href="{{ route('cliente.facturas') }}"
-         @class(['active' => request()->routeIs('cliente.facturas')])>
-        <span class="icon">◳</span> Mis facturas
+      <a href="{{ route('admin.reservas') }}"
+         @class(['active' => request()->routeIs('admin.reservas*')])>
+        <span class="icon">◻</span> Reservaciones
       </a>
     </li>
     <li>
-      <a href="{{ route('cliente.perfil') }}"
-         @class(['active' => request()->routeIs('cliente.perfil')])>
-        <span class="icon">Ω</span> Mi perfil
+      <a href="{{ route('admin.habitaciones') }}"
+         @class(['active' => request()->routeIs('admin.habitaciones*')])>
+        <span class="icon">◫</span> Habitaciones
+      </a>
+    </li>
+    <li>
+      <a href="{{ route('admin.clientes') }}"
+         @class(['active' => request()->routeIs('admin.clientes*')])>
+        <span class="icon">◈</span> Huéspedes
       </a>
     </li>
   </ul>
@@ -61,7 +66,6 @@
   </div>
 </aside>
 
-{{-- ═══════════════ MAIN ═══════════════ --}}
 <main class="main">
 
   <nav class="topnav">
@@ -70,12 +74,11 @@
     </div>
   </nav>
 
-  {{-- Alertas flash --}}
   @if(session('success'))
-    <div class="alert alert-success">{{ session('success') }}</div>
+    <div class="alert-flash alert-flash-ok">{{ session('success') }}</div>
   @endif
   @if(session('error'))
-    <div class="alert alert-error">{{ session('error') }}</div>
+    <div class="alert-flash alert-flash-err">{{ session('error') }}</div>
   @endif
 
   @yield('contenido')
@@ -84,7 +87,7 @@
 
 <script>
   document.getElementById('fecha-topnav').textContent =
-    new Date().toLocaleDateString('es-ES', { year:'numeric', month:'long', day:'numeric' });
+    new Date().toLocaleDateString('es-ES', { year:'numeric', month:'long', day:'numeric' }).toUpperCase();
 </script>
 
 @stack('scripts')
