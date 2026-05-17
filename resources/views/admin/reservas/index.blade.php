@@ -5,8 +5,10 @@
 
 <div class="panel">
   <div class="facturas-header">
-    <h1>RESERVAS</h1>
-    <p>Historial de reservas</p>
+    <div class="facturas-header-text">
+      <h1>RESERVAS</h1>
+      <p>Historial de reservas</p>
+    </div>
     <a href="{{ route('admin.reservas.create') }}" class="panel-action btn-descargar">
       Agregar reserva
     </a>

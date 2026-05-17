@@ -9,6 +9,7 @@ use App\Models\Habitacion;
 use App\Models\Pago;
 use App\Models\Reserva;
 use App\Models\User;
+use App\Notifications\ReservaConfirmada;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -147,6 +148,8 @@ class ReservaController extends Controller
     {
         $reserva = Reserva::where('id', $id)->where('estado', 'pendiente')->firstOrFail();
         $reserva->update(['estado' => 'confirmada']);
+
+        $reserva->user->notify(new ReservaConfirmada($reserva));
 
         return redirect()->route('admin.reservas')
             ->with('success', 'Reserva confirmada correctamente.');
