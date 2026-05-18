@@ -247,12 +247,13 @@ body {
 }
 
 .card-footer {
-    padding: 1.2rem 2rem;
+    padding: 1.2rem 1rem;
     border-top: 1px solid #c9a84c22;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
+    flex-wrap: wrap;
 }
 
 .footer-note {
@@ -263,7 +264,7 @@ body {
 }
 
 
-.footer-actions { display: flex; gap: 0.75rem; }
+.footer-actions { display: flex; gap: 0.75rem;  }
 
 .boton {
     font-family: "Cal Sans", sans-serif;
@@ -293,3 +294,355 @@ body {
     color: #fff;
 }
 
+
+/* ===================================================
+   RESPONSIVE — registros.css
+   =================================================== */
+
+/* ── 2560px ── */
+@media (min-width: 2560px) {
+    body { padding: 4rem 2rem; }
+
+    .card  { max-width: 1300px; border-radius: 20px; }
+    .card2 { max-width: 1100px; border-radius: 20px; }
+
+    .card-header { padding: 3rem 3.5rem 2.6rem; gap: 24px; }
+    .header-title { font-size: 2.8rem; }
+    .header-sub   { font-size: 1rem; letter-spacing: 0.25em; margin-top: 6px; }
+
+    .card-body { padding: 3rem 3.5rem; }
+
+    .section-label { font-size: 0.95rem; margin-bottom: 1.6rem; gap: 14px; }
+
+    .form-grid { gap: 1.8rem; }
+    .form-section { margin-bottom: 2.2rem; }
+
+    .field label,
+    .field2 label { font-size: 0.95rem; letter-spacing: 0.22em; }
+
+    .field input,
+    .field select,
+    .field2 input {
+        font-size: 1.2rem;
+        padding: 1.1rem 1.4rem;
+    }
+
+    .field select {
+        background-size: 14px;
+        background-position: right 1.2rem center;
+        padding-right: 2.8rem;
+    }
+
+    .errors-box { padding: 1.2rem 1.6rem; margin-bottom: 2rem; }
+    .errors-box p { font-size: 1.1rem; }
+    .errors-title { font-size: 0.82rem; margin-bottom: 10px; }
+
+    .card-footer { padding: 2rem 3.5rem; gap: 1.5rem; }
+    .footer-note  { font-size: 0.95rem; letter-spacing: 0.15em; }
+    .footer-actions { gap: 1rem; }
+    .boton {
+        font-size: 1rem;
+        padding: 1.1rem 2.6rem;
+        letter-spacing: 0.22em;
+        gap: 10px;
+    }
+
+    .password-toggle svg { width: 1.4rem; height: 1.4rem; }
+    .password-input-wrapper .password-input { padding-left: 3.5rem; }
+    .password-toggle { left: 1rem; }
+}
+
+/* ── 1920px – 2559px ── */
+@media (min-width: 1920px) and (max-width: 2559px) {
+    .card  { max-width: 760px; }
+    .card2 { max-width: 700px; }
+    .card-header { padding: 1.8rem 2.4rem 1.6rem; }
+    .header-title { font-size: 1.65rem; }
+    .card-body { padding: 2rem 2.4rem; }
+    .field input,
+    .field select,
+    .field2 input { font-size: 0.92rem; padding: 0.75rem 1rem; }
+    .boton { font-size: 0.74rem; padding: 0.75rem 1.8rem; }
+}
+
+/* ── 1024px – 1279px ── */
+@media (min-width: 1024px) and (max-width: 1279px) {
+    .card  { max-width: 600px; }
+    .card2 { max-width: 560px; }
+}
+
+/* ── 768px – 1023px (tablet portrait) ── */
+@media (min-width: 768px) and (max-width: 1023px) {
+    body { padding: 2rem 1.5rem; }
+
+    .card  { max-width: 560px; border-radius: 3%; }
+    .card2 { max-width: 520px; border-radius: 3%; }
+
+    .card-header { padding: 1.4rem 1.6rem 1.2rem; }
+    .header-title { font-size: 1.25rem; }
+
+    .card-body { padding: 1.5rem 1.6rem; }
+
+    .col-2 { grid-template-columns: 1fr 1fr; }
+    .col-3 { grid-template-columns: 1fr 1fr; }
+
+    .card-footer {
+        padding: 1rem 1.6rem;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+    }
+    .footer-actions { justify-content: flex-end; }
+}
+
+/* ── ≤767px (móvil grande) ── */
+@media (max-width: 767px) {
+    body {
+        padding: 1.2rem 0.75rem;
+        align-items: flex-start;
+        padding-top: 2rem;
+    }
+
+    .card,
+    .card2 {
+        max-width: 100%;
+        border-radius: 16px;
+    }
+
+    .card-header {
+        padding: 1.2rem 1.4rem 1rem;
+        gap: 10px;
+    }
+
+    .header-title { font-size: 1.15rem; }
+    .header-sub   { font-size: 0.6rem; }
+
+    .card-body { padding: 1.4rem 1.4rem; }
+
+    .form-section { margin-bottom: 1.2rem; }
+
+    /* Colapsar todas las grillas a 1 columna */
+    .col-2,
+    .col-3 { grid-template-columns: 1fr; }
+
+    .form-grid.col-2 .field2 { grid-column: auto; }
+
+    .card-footer {
+        padding: 1rem 1.4rem;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.6rem;
+    }
+
+    .footer-note { font-size: 0.6rem; text-align: center; }
+
+    .footer-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .boton {
+        width: 100%;
+        justify-content: center;
+        padding: 0.75rem 1rem;
+        font-size: 0.65rem;
+    }
+}
+
+/* ── ≤430px ── */
+@media (max-width: 430px) {
+    body {
+        padding: 1rem 0.6rem;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .card,
+    .card2 { border-radius: 12px; }
+
+    .card-header { padding: 1rem 1.1rem 0.9rem; gap: 8px; }
+    .header-title { font-size: 1rem; }
+    .header-sub   { font-size: 0.56rem; }
+
+    .card-body { padding: 1.1rem 1.1rem; }
+
+    .section-label { font-size: 0.56rem; margin-bottom: 0.75rem; }
+
+    .field label,
+    .field2 label { font-size: 0.56rem; }
+
+    .field input,
+    .field select,
+    .field2 input {
+        font-size: 0.78rem;
+        padding: 0.55rem 0.7rem;
+    }
+
+    .form-grid { gap: 0.75rem; }
+
+    .errors-box { padding: 0.7rem 0.85rem; margin-bottom: 1rem; }
+    .errors-box p { font-size: 0.72rem; }
+
+    .card-footer {
+        padding: 0.85rem 1.1rem;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.5rem;
+    }
+    .footer-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+        width: 100%;
+    }
+    .footer-note  { font-size: 0.56rem; text-align: center; }
+    .boton {
+        font-size: 0.6rem;
+        padding: 0.65rem 0.85rem;
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* ── ≤375px ── */
+@media (max-width: 375px) {
+    body {
+        padding: 0.75rem 0.5rem;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .card,
+    .card2 { border-radius: 10px; }
+
+    .card-header { padding: 0.9rem 1rem 0.8rem; }
+    .header-title { font-size: 0.92rem; }
+
+    .card-body { padding: 1rem; }
+
+    .field input,
+    .field select,
+    .field2 input {
+        font-size: 0.74rem;
+        padding: 0.5rem 0.65rem;
+    }
+
+    .form-grid { gap: 0.65rem; }
+    .form-section { margin-bottom: 1rem; }
+
+    .card-footer {
+        padding: 0.75rem 1rem;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.45rem;
+    }
+    .footer-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+        width: 100%;
+    }
+    .boton {
+        font-size: 0.58rem;
+        padding: 0.6rem 0.75rem;
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* ── ≤320px ── */
+@media (max-width: 320px) {
+    body {
+        padding: 0.6rem 0.4rem;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .card,
+    .card2 { border-radius: 8px; width: 100%; }
+
+    .card-header { padding: 0.8rem 0.85rem 0.7rem; gap: 6px; }
+    .header-title { font-size: 0.82rem; }
+    .header-sub   { font-size: 0.5rem; letter-spacing: 0.1em; }
+
+    .card-body { padding: 0.85rem 0.85rem; }
+
+    .section-label { font-size: 0.5rem; margin-bottom: 0.6rem; }
+
+    .field label,
+    .field2 label { font-size: 0.5rem; }
+
+    .field input,
+    .field select,
+    .field2 input {
+        font-size: 0.7rem;
+        padding: 0.45rem 0.6rem;
+    }
+
+    .form-grid { gap: 0.55rem; }
+    .form-section { margin-bottom: 0.85rem; }
+
+    .errors-box { padding: 0.6rem 0.75rem; }
+    .errors-box p { font-size: 0.66rem; }
+
+    .card-footer {
+        padding: 0.65rem 0.85rem !important;
+        gap: 0.5rem !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        justify-content: flex-start !important;
+        flex-wrap: nowrap !important;
+    }
+    .footer-note {
+        font-size: 0.5rem;
+        text-align: center;
+        width: 100%;
+    }
+    .footer-actions {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0.4rem !important;
+        width: 100% !important;
+    }
+    .boton {
+        font-size: 0.55rem !important;
+        padding: 0.55rem 0.5rem !important;
+        letter-spacing: 0.1em !important;
+        width: 100% !important;
+        justify-content: center !important;
+        white-space: nowrap !important;
+        box-sizing: border-box !important;
+    }
+}
+
+/* ── Landscape móvil ── */
+@media (max-height: 500px) and (orientation: landscape) {
+    body { padding: 0.75rem 1rem; align-items: flex-start; }
+
+    .card,
+    .card2 { border-radius: 10px; }
+
+    .card-header { padding: 0.8rem 1.4rem 0.7rem; }
+    .header-title { font-size: 1rem; }
+
+    .card-body { padding: 1rem 1.4rem; }
+    .form-section { margin-bottom: 0.8rem; }
+
+    .col-2 { grid-template-columns: 1fr 1fr; }
+    .col-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+    .field input,
+    .field select,
+    .field2 input { padding: 0.45rem 0.7rem; font-size: 0.76rem; }
+
+    .card-footer { padding: 0.7rem 1.4rem; flex-direction: row; }
+    .footer-actions { flex-direction: row; }
+    .boton { width: auto; }
+}

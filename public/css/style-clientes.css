@@ -62,7 +62,7 @@ body {
 .nav-links {
   list-style: none;
   width: 100%;
-  margin-top: 6rem;
+  margin-top: 5rem;
   flex: 1;
   padding: 1rem 0;
 }
@@ -79,7 +79,6 @@ body {
   letter-spacing: 0.15em;
   text-transform: uppercase;
   transition: all 0.3s ease;
-  position: relative;
   border-left: 2px solid transparent;
 }
 
@@ -103,7 +102,7 @@ body {
   text-transform: uppercase;
   font-size: 0.72rem;
   letter-spacing: 0.12em;
-
+  white-space: nowrap;
 }
 
 .sidebar-bottom {
@@ -222,7 +221,7 @@ body {
   background: var(--bg);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid #6e5a13;
+  border: 2px solid #6e5a13;
   width: 70%;
   margin: 50px 15%;
 }
@@ -249,7 +248,7 @@ body {
 }
 
 .linea {
-  width: 1px;
+  width: 2px;
   height: 50px;
   background: #6e5a13;
 }
@@ -257,13 +256,13 @@ body {
 .btn-buscar2 {
   padding: 12px 30px;
   border-radius: 30px;
-  border: 1px solid #6e5a13;
+  border: 2px solid #6e5a13;
   background: transparent;
   color: #6e5a13;
   font-size: 15px;
   cursor: pointer;
-  position: absolute;
-  right: 80px;
+  position: relative;
+  left: 40px;
   font-family: "Cal Sans", sans-serif;
 }
 
@@ -400,7 +399,7 @@ body {
 }
 
 .habitaciones-section {
-  max-width: 1400px;
+  max-width: 1600px;
   margin: 30px;
   margin-top: 100px;
 }
@@ -410,6 +409,7 @@ body {
   grid-template-columns: repeat(auto-fit, minmax(380px, 380px));
   gap: 30px;
   justify-content: center;
+  margin-top: 70px;
 }
 
 .habitacion-card {
@@ -460,7 +460,7 @@ body {
 .habitacion-select {
   display: block;
   margin-top: 15px;
-  margin-left: 50px;
+  margin-left: 30px;
   padding: 12px 10px;
   background: transparent;
   color: #6e5a13;
@@ -486,9 +486,11 @@ body {
   font-size: 32px;
   color: #6e5a13;
   font-weight: 600;
-  margin-left: 33%;
-  margin-top: 50px;
+  margin-left: 0;
+  margin-top: 90px;
   font-family: "Cormorant Garamond", serif;
+  text-align: center;
+  width: 100%;
 }
 
 .proxima-reserva {
@@ -598,9 +600,24 @@ body {
 .tabla-wrapper {
   width: 100%;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   border: 1px solid #c9a84c22;
   padding: 30px 28px;
   margin-top: -11px;
+}
+
+/* Mis Reservas — mismo scroll que Mis Facturas */
+.bottom-grid .table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid #c9a84c22;
+  padding: 16px 20px;
+  margin-top: 16px;
+}
+
+.res-table {
+  min-width: 860px;
 }
 
 table {
@@ -925,3 +942,590 @@ tbody td {
 .reserva-exitosa p{color:#999;letter-spacing: 1px; margin:0}
 .btn-reservas{margin-top:70px;padding:12px 20px;background:#c9a96c;color:#fff;border:none;border-radius:8px;font-size:14px;cursor:pointer;transition:background .2s}
 .btn-reservas a{color:#fff;text-decoration:none}
+/* ===================================================
+   RESPONSIVE — style-clientes.css
+   Menú hamburguesa para ≤1023px
+   =================================================== */
+
+/* ── Hamburger button ── */
+.hamburger-cliente {
+    display: none;
+    position: fixed;
+    top: 14px;
+    left: 14px;
+    z-index: 200;
+    flex-direction: column;
+    gap: 5px;
+    background: #fff6e5;
+    border: 1px solid rgba(201,169,110,0.3);
+    border-radius: 8px;
+    padding: 8px 10px;
+    cursor: pointer;
+}
+
+.hamburger-cliente span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: #6e5a13;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.hamburger-cliente.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger-cliente.is-open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger-cliente.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Overlay backdrop */
+.sidebar-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    z-index: 149;
+}
+.sidebar-backdrop.open { display: block; }
+
+/* ── 2560px ── */
+@media (min-width: 2560px) {
+    /* Sidebar más ancho */
+    .sidebar { width: 360px; }
+    .logo-img { width: 190px; height: 190px; }
+    .nav-links li a { font-size: 0.92rem; padding: 1.3rem 2.4rem; gap: 14px; }
+    .nav-links { margin-top: 4rem; }
+    .logout-btn { font-size: 0.95rem; padding: 1rem 2rem; }
+    .sidebar-bottom { padding: 2rem; }
+    .main { margin-left: 360px; }
+
+    /* Topnav */
+    .topnav { height: 80px; padding: 0 4rem; }
+    .topnav-date { font-size: 1rem; }
+
+    /* Hero */
+    .hero { height: 480px; }
+    .hero-text h2 { font-size: 3.8rem; }
+    .hero-content { padding: 2.8rem 3.5rem; }
+
+    /* Títulos centrados */
+    .section-title { font-size: 52px; margin-left: 0; text-align: center; width: 100%; }
+    .resultado-busqueda { font-size: 52px; text-align: center; width: 100%; }
+
+    /* Buscador grande y bien distribuido */
+    #form-busqueda { display: flex; flex-direction: column; align-items: center; width: 100%; }
+    .buscador-hotel {
+        width: 72%;
+        max-width: 1600px;
+        margin: 60px auto;
+        padding: 36px 60px;
+        gap: 0;
+        position: relative;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .campo {
+        padding: 0 36px;
+        align-items: flex-start;
+        text-align: left;
+        flex: 1;
+    }
+    .campo label {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 6px;
+        display: block;
+        white-space: nowrap;
+    }
+    .date-display { font-size: 17px; }
+    .campo input { font-size: 17px; }
+    .linea { height: 60px; flex-shrink: 0; }
+    .btn-buscar2 {
+        position: static !important;
+        font-size: 17px;
+        padding: 16px 44px;
+        flex-shrink: 0;
+        margin-left: 16px;
+        border-radius: 40px;
+        white-space: nowrap;
+    }
+
+    /* Habitaciones */
+    .habitaciones-section { max-width: 2200px; margin: 40px auto; padding: 0 60px; }
+    .habitaciones-grid {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, auto);
+        gap: 50px;
+    }
+    .habitacion-imagen { height: 420px; }
+    .habitacion-content { padding: 40px 36px; }
+    .habitacion-nombre { font-size: 2.2rem; }
+    .habitacion-detalles { font-size: 1rem; }
+    .habitacion-select { font-size: 1.1rem; padding: 16px 14px; min-width: 260px; }
+
+    /* Facturas / tablas */
+    .facturas-header { padding: 40px 36px; }
+    .facturas-header h1 { font-size: 46px; }
+    .facturas-header p { font-size: 16px; }
+    .tabla-wrapper { padding: 36px; }
+    thead th { font-size: 0.78rem; padding: 18px 20px; }
+    tbody td { font-size: 15px; padding: 16px 20px; }
+    .td-total { font-size: 22px; }
+    .res-table thead th { font-size: 0.78rem; padding: 1.2rem 2.4rem; }
+    .res-table tbody td { font-size: 0.92rem; padding: 1.2rem 2.4rem; }
+
+    /* Perfil */
+    .perfil-name { font-size: 28px; }
+    .perfil-5 { font-size: 28px; }
+    .form-label { font-size: 14px; }
+    .form-input { font-size: 15px; padding: 12px 18px; }
+    .btn { font-size: 13px; padding: 10px 24px; }
+
+    /* Reservas */
+    .proxima-reserva { padding: 36px; }
+    .info-reserva h3 { font-size: 30px; }
+    .info-reserva p { font-size: 17px; }
+    .badge { font-size: 0.75rem; padding: 5px 14px; }
+}
+
+/* ── 1920px – 2559px ── */
+@media (min-width: 1920px) and (max-width: 2559px) {
+    .sidebar { width: 220px; }
+    .main { margin-left: 220px; }
+    .habitaciones-grid { grid-template-columns: repeat(auto-fit, minmax(420px, 420px)); }
+    .section-title { font-size: 36px; }
+}
+
+/* ── 1280px – 1919px (cubre 1440×762) — 2 cols x 3 rows ── */
+@media (min-width: 1280px) and (max-width: 1919px) {
+    .habitaciones-section { max-width: 1200px; margin: 30px auto; padding: 0 40px; }
+    .habitaciones-grid {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, auto);
+        gap: 30px;
+    }
+    .habitacion-imagen { height: 280px; }
+    .btn-buscar2 { right: 30px; }
+    .section-title { margin-left: 0; text-align: center; }
+    .resultado-busqueda { margin-left: 0; text-align: center; }
+}
+
+/* ── 1024px – 1279px ── */
+@media (min-width: 1024px) and (max-width: 1279px) {
+    .sidebar { width: 180px; }
+    .logo-img { width: 110px; height: 110px; }
+    .nav-links li a { font-size: 0.65rem; padding: 0.85rem 1.4rem; gap: 8px; }
+    .main { margin-left: 180px; }
+    .buscador-hotel { width: 80%; margin: 40px 10%; padding: 20px 24px; gap: 16px; position: relative; }
+    .btn-buscar2 { position: static; white-space: nowrap; }
+    .habitaciones-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(3, auto); gap: 20px; }
+    .habitacion-imagen { height: 240px; }
+    .section-title { font-size: 26px; margin-left: 0; text-align: center; width: 100%; }
+    .resultado-busqueda { font-size: 26px; margin-left: 0; text-align: center; }
+    .perfil-grid { grid-template-columns: 1fr; }
+}
+
+/* ── ≤1023px — HAMBURGER ACTIVO ── */
+@media (max-width: 1023px) {
+    /* Sidebar oculto, se desliza al abrir */
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.32s cubic-bezier(0.4,0,0.2,1);
+        z-index: 150;
+        width: 240px;
+        align-items: center;
+    }
+    .sidebar.open { transform: translateX(0); }
+
+    /* Logo más pequeño y centrado */
+    .sidebar-logo {
+        padding: 1.4rem 1.4rem 1.4rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-bottom: 1px solid rgba(201,169,110,0.2);
+        width: 100%;
+    }
+    .logo-img {
+        width: 72px;
+        height: 72px;
+    }
+
+    /* Nav links centrados */
+    .nav-links {
+        margin-top: 2.5rem;
+        width: 100%;
+    }
+    .nav-links li a {
+        justify-content: flex-start;
+        padding: 1rem 1.4rem;
+        gap: 10px;
+        font-size: 0.75rem;
+        letter-spacing: 0.18em;
+        border-left: none;
+        border-bottom: 1px solid rgba(201,169,110,0.1);
+        text-align: left;
+    }
+    .nav-links li a:hover,
+    .nav-links li a.active {
+        border-left: none;
+        border-bottom: 2px solid #6e5a13;
+        background: rgba(253,165,2,0.07);
+    }
+    .nav-links li a .icon {
+        font-size: 1.1rem;
+    }
+
+    /* Cerrar sesión al inicio */
+    .sidebar-bottom {
+        justify-content: flex-start;
+        padding: 1.4rem 1rem;
+        bottom: 0;
+    }
+    .logout-btn {
+        text-align: center;
+        font-size: 0.7rem;
+    }
+
+    .hamburger-cliente { display: flex; }
+
+    /* Centrar el form del buscador */
+    #form-busqueda {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .section-title {
+        width: 100%;
+        text-align: center !important;
+        margin-left: 0 !important;
+        padding: 0 20px;
+    }
+
+    .main { margin-left: 0; }
+
+    .topnav { padding: 0 1.5rem 0 60px; }
+
+    .hero { height: 260px; }
+    .hero-text h2 { font-size: 1.8rem; }
+
+    .section-title {
+        font-size: 22px;
+        margin-left: 0;
+        padding: 0 20px;
+        margin-top: 30px;
+    }
+
+    .buscador-hotel {
+        flex-direction: column;
+        width: calc(100% - 48px);
+        max-width: 420px;
+        margin: 30px auto !important;
+        padding: 20px 24px;
+        border-radius: 20px;
+        gap: 16px;
+        align-items: center;
+        display: flex;
+    }
+
+    .linea { width: 100%; height: 1px; }
+
+    .campo {
+        padding: 0;
+        position: relative;
+        width: 100%;
+        text-align: left;
+    }
+
+    /* Buscador no debe cortar el popup */
+    .buscador-hotel {
+        overflow: visible;
+    }
+
+    /* Popup: JS maneja position:fixed en móvil */
+    .cal-popup::before {
+        display: none;
+    }
+
+    .cal-popup {
+        position: fixed;
+        top: auto;
+        right: auto;
+        bottom: 16px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: min(92vw, 360px);
+        max-width: 100%;
+        margin: 0 auto;
+        border-radius: 20px;
+        padding: 1rem;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+        z-index: 10000;
+    }
+
+    #cal-ingreso.cal-popup,
+    #cal-salida.cal-popup {
+        position: fixed;
+        top: auto;
+        right: auto;
+        bottom: 16px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: min(92vw, 360px);
+        max-width: 100%;
+    }
+
+    .cal-popup.open {
+        display: block;
+    }
+
+    .cal-popup .cal-grid {
+        gap: 3px;
+    }
+
+    .cal-header {
+        margin-bottom: 0.8rem;
+    }
+
+    .cal-nav button {
+        width: 26px;
+        height: 26px;
+    }
+
+    .cal-wd {
+        font-size: 9px;
+    }
+
+    .cal-day {
+        padding: 8px 2px;
+        font-size: 12px;
+    }
+
+    .cal-popup {
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+
+    .btn-buscar2 {
+        position: static;
+        width: 100%;
+        margin-top: 8px;
+        text-align: center;
+        border-radius: 20px;
+        padding: 10px;
+    }
+
+    .habitaciones-section { margin: 20px; margin-top: 30px; }
+    .habitaciones-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+    .habitacion-imagen { height: 220px; }
+    .habitacion-content { padding: 24px 20px; }
+    .habitacion-nombre { font-size: 1.4rem; }
+
+    .facturas-header { padding: 24px 20px; }
+    .facturas-header h1 { font-size: 26px; }
+
+    .tabla-wrapper { padding: 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    table { min-width: 600px; }
+    .bottom-grid .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .res-table { min-width: 700px; }
+
+    .perfil-grid {
+        grid-template-columns: 1fr;
+        margin: 16px;
+    }
+
+    .proxima-reserva {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .resultado-busqueda { margin-left: 0; padding: 0 20px; font-size: 24px; text-align: center; }
+}
+
+/* ── ≤767px ── */
+@media (max-width: 767px) {
+    .hamburger-cliente { top: 12px; left: 12px; }
+
+    .topnav { height: 52px; padding: 0 1rem 0 56px; }
+    .topnav-date { font-size: 0.62rem; }
+
+    .hero { height: 200px; }
+    .hero-text h2 { font-size: 1.4rem; }
+    .hero-content { padding: 1.2rem 1.4rem; }
+
+    .section-title { font-size: 18px; margin-top: 20px; text-align: center; margin-left: 0 !important; width: 100%; }
+    .resultado-busqueda { font-size: 18px; margin-left: 0 !important; text-align: center; padding: 0 14px; width: 100%; }
+    .habitaciones-section { margin: 14px auto; }
+    .buscador-hotel { max-width: 420px; margin: 20px auto !important; }
+    .habitacion-content { text-align: center; }
+    .habitacion-nombre { text-align: center; }
+    .facturas-header { text-align: center; }
+    .facturas-header h1 { text-align: center; }
+    .facturas-header p { text-align: center; }
+    .sin-facturas { text-align: center; }
+    .proxima-reserva { align-items: center; text-align: center; }
+    .info-reserva { text-align: center; }
+    .info-reserva h3 { text-align: center; }
+    .bottom-grid { text-align: center; }
+    .bottom-grid h1 { text-align: center; }
+    .bottom-grid p { text-align: center; }
+    .buscador-hotel { text-align: center; }
+    .campo { text-align: center; align-items: center; }
+    .campo label { text-align: center; }
+    .date-display { text-align: center; }
+    .hero-content { justify-content: center; }
+    .hero-text { text-align: center; }
+    .hero-text h2 { text-align: center; }
+    .topnav { justify-content: center; padding: 0 1rem 0 1rem; }
+    .hamburger-cliente { top: 12px; left: 12px; }
+
+    .buscador-hotel { margin: 20px 14px; padding: 16px 18px; gap: 12px; }
+
+    .habitaciones-section { margin: 14px; margin-top: 20px; }
+    .habitaciones-grid { grid-template-columns: 1fr; gap: 16px; }
+    .habitacion-imagen { height: 200px; }
+
+    .facturas-header { padding: 16px 14px; margin-bottom: 16px; }
+    .facturas-header h1 { font-size: 22px; letter-spacing: 1px; }
+
+    .tabla-wrapper { padding: 10px; }
+
+    .perfil-grid { margin: 12px; gap: 12px; }
+    .perfil-1 { padding: 20px 16px; }
+    .perfil-4 { padding: 18px 16px; }
+    .perfil-name { font-size: 18px; }
+    .perfil-5 { font-size: 18px; }
+
+    .modal-container { padding: 24px 18px 20px; border-radius: 14px; }
+    .modal-titulo { font-size: 22px; }
+    .resumen-grid { grid-template-columns: 1fr 1fr; }
+    .pago-grid { grid-template-columns: 1fr; }
+
+    .res-table thead th { padding: 0.6rem 0.8rem; font-size: 0.58rem; }
+    .res-table tbody td { padding: 0.7rem 0.8rem; font-size: 0.65rem; }
+
+    .bottom-grid { padding: 0 14px; }
+
+    .bottom-grid .table-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .res-table {
+        min-width: 700px;
+    }
+}
+
+/* ── ≤430px ── */
+@media (max-width: 430px) {
+    .hamburger-cliente { top: 10px; left: 10px; padding: 7px 9px; }
+
+    .topnav { height: 48px; padding: 0 0.75rem 0 52px; }
+    .topnav-date { font-size: 0.58rem; letter-spacing: 0.08em; }
+
+    .hero { height: 180px; }
+    .hero-text h2 { font-size: 1.2rem; }
+
+    .section-title { font-size: 16px; }
+
+    .buscador-hotel { margin: 16px 10px; padding: 14px 16px; }
+    .campo label { font-size: 13px; }
+    .campo input { font-size: 13px; }
+
+    .habitaciones-section { margin: 10px; }
+    .habitacion-imagen { height: 180px; }
+    .habitacion-nombre { font-size: 1.2rem; }
+    .habitacion-content { padding: 18px 14px; }
+
+    .facturas-header { padding: 14px 12px; }
+    .facturas-header h1 { font-size: 19px; }
+
+    .perfil-grid { margin: 10px; }
+    .perfil-name { font-size: 16px; }
+    .perfil-icon { width: 56px; height: 56px; font-size: 22px; }
+
+    .modal-container { padding: 20px 14px 16px; }
+    .resumen-grid { grid-template-columns: 1fr; }
+}
+
+/* ── ≤375px ── */
+@media (max-width: 375px) {
+    .topnav { height: 46px; }
+    .hero { height: 160px; }
+    .hero-text h2 { font-size: 1.1rem; }
+
+    .section-title { font-size: 20px; }
+
+    .buscador-hotel { margin: 12px 10px; padding: 12px 14px; }
+
+    .habitaciones-section { margin: 8px; }
+    .habitacion-imagen { height: 165px; }
+    .habitacion-nombre { font-size: 1.1rem; }
+
+    .facturas-header h1 { font-size: 17px; }
+
+    .perfil-grid { margin: 8px; }
+    .perfil-1 { padding: 16px 12px; }
+    .perfil-4 { padding: 14px 12px; }
+
+    .modal-titulo { font-size: 20px; }
+}
+
+/* ── ≤320px ── */
+@media (max-width: 320px) {
+    .hamburger-cliente { top: 8px; left: 8px; padding: 6px 8px; }
+    .hamburger-cliente span { width: 18px; }
+
+    .topnav { height: 44px; padding-left: 48px; }
+    .topnav-date { font-size: 0.52rem; }
+
+    .hero { height: 150px; }
+    .hero-text h2 { font-size: 1rem; }
+    .hero-content { padding: 1rem; }
+
+    .section-title { font-size: 16px; margin-bottom: 10px;}
+    .buscador-hotel { margin: 10px 6px; padding: 10px 12px; }
+    .campo label, .campo input { font-size: 12px; }
+
+    .resultado-busqueda { margin-top: 20px;}
+    .habitaciones-section { margin: 10px; }
+    .habitacion-imagen { height: 150px; }
+    .habitacion-nombre { font-size: 1rem; }
+    .habitacion-content { padding: 14px 10px; }
+
+    .facturas-header { padding: 12px 10px; }
+    .facturas-header h1 { font-size: 15px; letter-spacing: 0.5px; }
+
+    .perfil-grid { margin: 6px; }
+    .perfil-1 { padding: 14px 10px; }
+    .perfil-name { font-size: 14px; }
+    .perfil-icon { width: 48px; height: 48px; font-size: 18px; }
+    .perfil-5 { font-size: 15px; }
+
+    .modal-container { padding: 16px 12px; }
+    .modal-titulo { font-size: 18px; }
+}
+
+/* ── Landscape móvil ── */
+@media (max-height: 500px) and (orientation: landscape) {
+    .hero { height: 140px; }
+    .hero-text h2 { font-size: 1.2rem; }
+    .habitaciones-grid { grid-template-columns: repeat(2, 1fr); }
+    .buscador-hotel { flex-direction: row; flex-wrap: wrap; }
+    .linea { width: 1px; height: 40px; }
+    .btn-buscar2 { position: static; width: auto; }
+}
+
+/* Ocultar inputs hidden del buscador — algunos navegadores los muestran */
+#fecha_ingreso,
+#fecha_salida {
+    display: none !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    height: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    position: absolute !important;
+    pointer-events: none !important;
+}

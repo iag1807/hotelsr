@@ -105,7 +105,7 @@ body {
   text-transform: uppercase;
   font-size: 0.72rem;
   letter-spacing: 0.12em;
-
+  white-space: nowrap;
 }
 
 .sidebar-bottom {
@@ -367,6 +367,14 @@ body {
 .res-table {
   width: 100%;
   border-collapse: collapse;
+  min-width: 480px;
+}
+
+/* Wrapper para scroll horizontal del res-table */
+.panel .res-table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
 }
 .res-table thead th {
   font-size: 0.6rem;
@@ -416,7 +424,11 @@ body {
 
 .facturas-header {
   padding: 32px 28px;
-  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
 }
 .facturas-header h1 {
   font-family: "Cormorant Garamond", serif;
@@ -424,8 +436,9 @@ body {
   font-weight: 400;
   letter-spacing: 2px;
   color: #000;
-  margin: 0 0 4px;
+  margin: 0;
 }
+.facturas-header-text { display: flex; flex-direction: column; gap: 4px; }
 .facturas-header p {
   color: #888;
   font-size: 12px;
@@ -474,10 +487,21 @@ tbody td {
   vertical-align: middle;
 }
 
+/* Acciones con badges en línea dentro de td */
+tbody td .badge,
+tbody td a.badge,
+tbody td button.badge {
+  margin: 2px 3px;
+  display: inline-flex;
+  white-space: nowrap;
+}
+
 .acciones {
   display: flex;
-  gap: 8px;
+  flex-wrap: wrap;
+  gap: 6px;
   justify-content: center;
+  align-items: center;
 }
 
 .btn-accion {
@@ -499,13 +523,9 @@ tbody td {
 .btn-ver:hover { border-color: #c9a84c; }
 .btn-descargar { background: #c9a84c; color: #fff; }
 
-/* panel-action para las tablas CRUD (posición absoluta dentro de facturas-header) */
 .facturas-header .panel-action,
 .facturas-header .btn-descargar {
-  position: absolute;
-  top: 50%;
-  right: 28px;
-  transform: translateY(-50%);
+  position: static;
   padding: 10px 15px;
   border-radius: 7px;
   font-size: 11px;
@@ -515,6 +535,8 @@ tbody td {
   text-decoration: none;
   color: #fff;
   background: #c9a84c;
+  flex-shrink: 0;
+  display: inline-block;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -719,10 +741,382 @@ body.form-page {
    RESPONSIVE
    ═══════════════════════════════════════════════════════════ */
 
-@media (max-width: 900px) {
-  .bottom-grid { grid-template-columns: 1fr; }
-  .col-2       { grid-template-columns: 1fr; }
-  .card        { margin: 1rem; }
-  .main        { margin-left: 0; }
-  .sidebar     { display: none; }
+/* ===================================================
+   HAMBURGER BUTTON + BACKDROP
+   =================================================== */
+
+.hamburger-admin {
+    display: none;
+    position: fixed;
+    top: 14px;
+    left: 14px;
+    z-index: 200;
+    flex-direction: column;
+    gap: 5px;
+    background: #fff6e5;
+    border: 1px solid rgba(201,169,110,0.3);
+    border-radius: 8px;
+    padding: 8px 10px;
+    cursor: pointer;
+}
+.hamburger-admin span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: #6e5a13;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+.hamburger-admin.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger-admin.is-open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger-admin.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.sidebar-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    z-index: 149;
+}
+.sidebar-backdrop.open { display: block; }
+
+/* ===================================================
+   2560px
+   =================================================== */
+@media (min-width: 2560px) {
+    .sidebar { width: 320px; }
+    .logo-img { width: 170px; height: 170px; }
+    .nav-links li a { font-size: 0.92rem; padding: 1.3rem 2.4rem; gap: 14px; }
+    .nav-links { margin-top: 4rem; }
+    .logout-btn { font-size: 0.88rem; }
+    .main { margin-left: 320px; }
+    .topnav { height: 72px; padding: 0 3.5rem; }
+    .topnav-date { font-size: 0.88rem; }
+    .hero { height: 440px; }
+    .hero-text h2 { font-size: 3.4rem; }
+    .content { padding: 2.5rem 3.5rem; }
+    .bottom-grid { gap: 2rem; }
+    .panel-title { font-size: 1.3rem; }
+    .res-table thead th { font-size: 0.72rem; padding: 1rem 2rem; }
+    .res-table tbody td { font-size: 0.85rem; padding: 1rem 2rem; }
+    .facturas-header h1 { font-size: 42px; }
+    thead th { font-size: 0.72rem; padding: 16px 20px; }
+    tbody td { font-size: 15px; padding: 14px 20px; }
+    .card { max-width: 900px; }
+    .card-header { padding: 2rem 2.6rem 1.8rem; }
+    .header-title { font-size: 1.8rem; }
+    .card-body { padding: 2.2rem 2.6rem; }
+    .field label { font-size: 0.82rem; }
+    .field input, .field select { font-size: 1rem; padding: 0.85rem 1.1rem; }
+    .btn { font-size: 0.85rem; padding: 0.85rem 2rem; }
+    .alert-flash { margin: 14px 3.5rem 0; font-size: 1rem; }
+    .rooms-grid { grid-template-columns: repeat(auto-fill, minmax(54px, 1fr)); gap: 8px; }
+    .room-num { font-size: 1rem; }
+    .room-group-title { font-size: 0.82rem; }
+}
+
+/* ===================================================
+   1920px – 2559px
+   =================================================== */
+@media (min-width: 1920px) and (max-width: 2559px) {
+    .sidebar { width: 240px; }
+    .main { margin-left: 240px; }
+    .logo-img { width: 150px; height: 150px; }
+    .nav-links li a { font-size: 0.78rem; padding: 1.1rem 2rem; }
+    .hero { height: 380px; }
+    .hero-text h2 { font-size: 2.8rem; }
+    .content { padding: 2.2rem 3rem; }
+    .facturas-header h1 { font-size: 38px; }
+    .card { max-width: 760px; }
+}
+
+/* ===================================================
+   1280px – 1919px
+   =================================================== */
+@media (min-width: 1280px) and (max-width: 1919px) {
+    .sidebar { width: 210px; }
+    .main { margin-left: 210px; }
+    .content { padding: 2rem 2.8rem; }
+}
+
+/* ===================================================
+   1024px – 1279px
+   =================================================== */
+@media (min-width: 1024px) and (max-width: 1279px) {
+    .sidebar { width: 185px; }
+    .logo-img { width: 110px; height: 110px; }
+    .nav-links li a { font-size: 0.65rem; padding: 0.9rem 1.4rem; gap: 8px; }
+    .main { margin-left: 185px; }
+    .topnav { padding: 0 1.8rem; }
+    .content { padding: 1.5rem 2rem; }
+    .hero { height: 280px; }
+    .hero-text h2 { font-size: 2rem; }
+    .bottom-grid { gap: 1rem; }
+    .facturas-header h1 { font-size: 26px; }
+    .tabla-wrapper { padding: 20px 16px; }
+    .card { max-width: 580px; }
+    .form-wrapper { padding: 1.5rem; }
+}
+
+/* ===================================================
+   ≤1023px — HAMBURGER ACTIVO
+   =================================================== */
+@media (max-width: 1023px) {
+    .hamburger-admin { display: flex; }
+
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.32s cubic-bezier(0.4,0,0.2,1);
+        z-index: 150;
+        width: 230px;
+        align-items: center;
+    }
+    .sidebar.open { transform: translateX(0); }
+
+    .sidebar-logo {
+        padding: 1.4rem;
+        display: flex;
+        justify-content: center;
+    }
+    .logo-img { width: 72px; height: 72px; }
+
+    .nav-links { margin-top: 2rem; width: 100%; }
+    .nav-links li a {
+        justify-content: flex-start;
+        padding: 1rem 1.8rem;
+        font-size: 0.72rem;
+        letter-spacing: 0.15em;
+        border-left: 2px solid transparent;
+        border-bottom: none;
+        text-align: left;
+    }
+    .nav-links li a:hover,
+    .nav-links li a.active {
+        border-left: 2px solid #6e5a13;
+        border-bottom: none;
+        background: rgba(253,165,2,0.07);
+    }
+    .sidebar-bottom { justify-content: flex-start; padding: 1.2rem 1.8rem; }
+    .logout-btn { font-size: 0.68rem; text-align: left; }
+
+    .main { margin-left: 0; }
+    .topnav { padding: 0 1.2rem 0 56px; justify-content: flex-end; }
+    .content { padding: 1.2rem 1.4rem; }
+
+    .hero { height: 240px; }
+    .hero-text h2 { font-size: 1.8rem; }
+    .hero-content { padding: 1.5rem 1.8rem; }
+
+    .bottom-grid { grid-template-columns: 1fr; gap: 1rem; }
+
+    .alert-flash { margin: 10px 1.4rem 0; }
+
+    .facturas-header {
+        padding: 20px 16px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+    }
+    .facturas-header h1 { font-size: 22px; letter-spacing: 1px; margin: 0; }
+    .facturas-header p { margin: 0; }
+    .facturas-header .panel-action,
+    .facturas-header .btn-descargar {
+        position: static !important;
+        transform: none !important;
+        display: inline-block;
+        margin-top: 0;
+        flex-shrink: 0;
+    }
+
+    .tabla-wrapper { padding: 12px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    table { min-width: 600px; }
+
+    .form-wrapper { padding: 1.2rem; align-items: flex-start; padding-top: 2rem; }
+    .card { max-width: 100%; border-radius: 12px; }
+    .card-header { padding: 1.2rem 1.4rem; }
+    .header-title { font-size: 1.2rem; }
+    .card-body { padding: 1.4rem; }
+    .col-2 { grid-template-columns: 1fr 1fr; }
+    .card-footer { padding: 1rem 1.4rem; flex-wrap: wrap; }
+
+    .panel-header { padding: 0.9rem 1.2rem; }
+    .rooms-grid { grid-template-columns: repeat(auto-fill, minmax(38px, 1fr)); gap: 5px; }
+}
+
+/* ===================================================
+   ≤767px
+   =================================================== */
+@media (max-width: 767px) {
+    .hamburger-admin { top: 12px; left: 12px; }
+    .topnav { height: 52px; padding: 0 1.2rem 0 54px; justify-content: flex-end; }
+    .topnav-date { font-size: 0.58rem; }
+
+    .hero { height: 200px; }
+    .hero-text h2 { font-size: 1.5rem; }
+    .hero-content { padding: 1.2rem 1.4rem; }
+
+    .content { padding: 1rem 1rem; }
+
+    .facturas-header {
+        padding: 16px 12px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        text-align: left;
+    }
+    .facturas-header h1 { font-size: 20px; margin: 0; }
+    .facturas-header p { text-align: left; }
+    .facturas-header .panel-action,
+    .facturas-header .btn-descargar {
+        position: static !important;
+        transform: none !important;
+        display: inline-block;
+        margin: 0;
+        flex-shrink: 0;
+    }
+
+    .tabla-wrapper { padding: 8px; }
+    table { min-width: 560px; }
+    thead th { font-size: 0.55rem; padding: 10px 10px; }
+    tbody td { font-size: 0.7rem; padding: 10px 10px; }
+
+    .col-2 { grid-template-columns: 1fr; }
+    .col-3 { grid-template-columns: 1fr; }
+
+    .form-wrapper { padding: 0.8rem; padding-top: 1.5rem; }
+    .card { border-radius: 10px; }
+    .card-header { padding: 1rem 1.1rem; }
+    .header-title { font-size: 1.05rem; }
+    .card-body { padding: 1.1rem; }
+    .card-footer {
+        padding: 0.9rem 1.1rem !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 0.5rem !important;
+    }
+    .footer-actions {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0.4rem !important;
+        width: 100% !important;
+    }
+    .btn {
+        width: 100% !important;
+        justify-content: center !important;
+        padding: 0.7rem 1rem !important;
+        box-sizing: border-box !important;
+    }
+    .footer-note { text-align: center; font-size: 0.58rem; }
+
+    .panel-header { padding: 0.75rem 1rem; }
+    .panel-title { font-size: 0.9rem; }
+    .rooms-grid { grid-template-columns: repeat(auto-fill, minmax(34px, 1fr)); gap: 4px; }
+    .room-num { font-size: 0.68rem; }
+    .res-table thead th { font-size: 0.55rem; padding: 0.6rem 0.8rem; }
+    .res-table tbody td { font-size: 0.65rem; padding: 0.65rem 0.8rem; }
+}
+
+/* ===================================================
+   ≤430px
+   =================================================== */
+@media (max-width: 430px) {
+    .hamburger-admin { top: 10px; left: 10px; padding: 7px 9px; }
+    .topnav { height: 48px; padding-left: 50px; }
+
+    .hero { height: 175px; }
+    .hero-text h2 { font-size: 1.3rem; }
+
+    .content { padding: 0.8rem; }
+
+    .facturas-header h1 { font-size: 18px; }
+
+    table { min-width: 520px; }
+
+    .card-header { padding: 0.9rem 1rem; }
+    .header-title { font-size: 0.95rem; }
+    .card-body { padding: 1rem; }
+    .field label { font-size: 0.56rem; }
+    .field input, .field select { font-size: 0.78rem; padding: 0.55rem 0.7rem; }
+    .form-grid { gap: 0.7rem; }
+    .form-section { margin-bottom: 1.1rem; }
+}
+
+/* ===================================================
+   ≤375px
+   =================================================== */
+@media (max-width: 375px) {
+    .topnav { height: 46px; }
+    .hero { height: 155px; }
+    .hero-text h2 { font-size: 1.15rem; }
+
+    .facturas-header h1 { font-size: 16px; }
+
+    table { min-width: 480px; }
+
+    .header-title { font-size: 0.88rem; }
+    .field input, .field select { font-size: 0.74rem; }
+    .btn { font-size: 0.58rem; }
+}
+
+/* ===================================================
+   ≤320px
+   =================================================== */
+@media (max-width: 320px) {
+    .hamburger-admin { top: 8px; left: 8px; padding: 6px 8px; }
+    .hamburger-admin span { width: 18px; }
+    .topnav { height: 44px; padding-left: 46px; }
+    .topnav-date { font-size: 0.52rem; }
+
+    .hero { height: 140px; }
+    .hero-text h2 { font-size: 1rem; }
+    .hero-content { padding: 1rem; }
+
+    .content { padding: 0.6rem; }
+    .facturas-header { padding: 12px 10px; }
+    .facturas-header h1 { font-size: 15px; }
+
+    table { min-width: 440px; }
+    thead th { font-size: 0.5rem; padding: 8px; }
+    tbody td { font-size: 0.62rem; padding: 8px; }
+
+    .card-body { padding: 0.85rem; }
+    .header-title { font-size: 0.82rem; }
+    .field label { font-size: 0.5rem; }
+    .field input, .field select { font-size: 0.7rem; padding: 0.45rem 0.6rem; }
+    .form-grid { gap: 0.55rem; }
+    .card-footer {
+        padding: 0.65rem 0.85rem !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 0.4rem !important;
+    }
+    .footer-actions {
+        flex-direction: column !important;
+        gap: 0.35rem !important;
+        width: 100% !important;
+    }
+    .btn {
+        font-size: 0.55rem !important;
+        padding: 0.55rem 0.5rem !important;
+        width: 100% !important;
+        justify-content: center !important;
+    }
+}
+
+/* ===================================================
+   Landscape móvil
+   =================================================== */
+@media (max-height: 500px) and (orientation: landscape) {
+    .hero { height: 130px; }
+    .hero-text h2 { font-size: 1.2rem; }
+    .content { padding: 0.75rem 1rem; }
+    .bottom-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .col-2 { grid-template-columns: 1fr 1fr; }
+    .card-footer { flex-direction: row; }
+    .footer-actions { flex-direction: row; }
+    .btn { width: auto; }
 }

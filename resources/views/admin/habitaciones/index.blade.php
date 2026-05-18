@@ -5,8 +5,10 @@
 
 <div class="panel">
   <div class="facturas-header">
-    <h1>HABITACIONES</h1>
-    <p>Habitaciones del hotel</p>
+    <div class="facturas-header-text">
+      <h1>HABITACIONES</h1>
+      <p>Habitaciones del hotel</p>
+    </div>
     <a href="{{ route('admin.habitaciones.create') }}" class="panel-action btn-descargar">
       Agregar habitación
     </a>

@@ -11,6 +11,7 @@ use App\Services\FacturacionService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ReservaController extends Controller
 {
@@ -22,7 +23,6 @@ class ReservaController extends Controller
     {
         $user = auth()->user();
 
-        // Próxima reserva activa
         $proximaReserva = Reserva::with('habitacion')
             ->where('user_id', $user->id)
             ->where('fecha_ingreso', '>=', now()->toDateString())
@@ -30,7 +30,6 @@ class ReservaController extends Controller
             ->orderBy('fecha_ingreso')
             ->first();
 
-        // Historial completo con relaciones necesarias para la tabla
         $historial = Reserva::with(['habitacion', 'pagos'])
             ->where('user_id', $user->id)
             ->orderByDesc('created_at')
@@ -39,7 +38,7 @@ class ReservaController extends Controller
         return view('cliente.reservas', compact('user', 'proximaReserva', 'historial'));
     }
 
-    // ── POST JSON: crear reserva desde el modal ────────────────────────────────
+    // ── POST multipart: crear reserva desde el modal ──────────────────────────
 
     public function store(ProcesarReservaRequest $request)
     {
@@ -48,7 +47,7 @@ class ReservaController extends Controller
 
         // Verificar que la habitación existe y está disponible
         $habitacion = Habitacion::where('id', $data['id_habitacion'])
-            ->where('estado', 'disponible')   // ← 'disponible', no 'activa'
+            ->where('estado', 'disponible')
             ->first();
 
         if (!$habitacion) {
@@ -85,8 +84,8 @@ class ReservaController extends Controller
             ], 409);
         }
 
-        // ── Guardar comprobante ───────────────────────────────────────────────
-        $rutaComprobante = $this->guardarComprobante($data['comprobante'], $user->documento);
+        // ── Guardar comprobante de forma segura ───────────────────────────────
+        $rutaComprobante = $this->guardarComprobante($request, $user->documento);
 
         if (!$rutaComprobante) {
             return response()->json([
@@ -123,8 +122,6 @@ class ReservaController extends Controller
                 ]);
 
                 $idReserva = $reserva->id;
-
-                // Generar factura PDF y registrar en BD
                 $idFactura = $this->facturacionService->generarFactura($reserva);
             });
 
@@ -136,9 +133,7 @@ class ReservaController extends Controller
             ]);
 
         } catch (\Throwable $e) {
-            // Revertir el comprobante si la transacción falla
             Storage::disk('public')->delete($rutaComprobante);
-
             return response()->json([
                 'exito'   => false,
                 'mensaje' => 'Error al guardar la reserva: ' . $e->getMessage(),
@@ -146,26 +141,22 @@ class ReservaController extends Controller
         }
     }
 
-    // ── Helpers privados ──────────────────────────────────────────────────────
+    // ── Helper: guardar comprobante de forma segura ───────────────────────────
 
-    private function guardarComprobante(string $base64, string $documento): ?string
+    private function guardarComprobante(ProcesarReservaRequest $request, string $documento): ?string
     {
         try {
-            $ext = 'jpg';
-            if (str_contains($base64, 'image/png'))           $ext = 'png';
-            elseif (str_contains($base64, 'application/pdf')) $ext = 'pdf';
+            $archivo = $request->file('comprobante');
 
-            $datos = $base64;
-            if (str_contains($base64, ',')) {
-                $datos = explode(',', $base64, 2)[1];
-            }
+            // Nombre aleatorio con UUID — imposible de adivinar o enumerar
+            $nombre = 'comp_' . $documento . '_' . Str::uuid() . '.' . $archivo->extension();
 
-            $nombre = 'comp_' . $documento . '_' . time() . '.' . $ext;
-            $ruta   = 'comprobantes/' . $nombre;
+            // storeAs valida el archivo real antes de guardarlo
+            // La carpeta 'comprobantes' dentro del disco 'public'
+            $ruta = $archivo->storeAs('comprobantes', $nombre, 'public');
 
-            Storage::disk('public')->put($ruta, base64_decode($datos));
+            return $ruta ?: null;
 
-            return $ruta;
         } catch (\Throwable) {
             return null;
         }

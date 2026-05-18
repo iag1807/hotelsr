@@ -18,7 +18,16 @@ class ProcesarReservaRequest extends FormRequest
             'fecha_ingreso' => ['required', 'date', 'date_format:Y-m-d', 'after_or_equal:today'],
             'fecha_salida'  => ['required', 'date', 'date_format:Y-m-d', 'after:fecha_ingreso'],
             'num_personas'  => ['required', 'integer', 'min:1', 'max:10'],
-            'comprobante'   => ['required', 'string'],  // base64
+
+            // ── Archivo real: validación de MIME en servidor ───────────────────
+            // mimes: valida el contenido real del archivo, no solo la extensión
+            // max: 5120 KB = 5 MB
+            'comprobante'   => [
+                'required',
+                'file',
+                'mimes:jpg,jpeg,png,pdf',
+                'max:5120',
+            ],
         ];
     }
 
@@ -34,6 +43,9 @@ class ProcesarReservaRequest extends FormRequest
             'num_personas.required'        => 'Indica el número de personas.',
             'num_personas.min'             => 'Debe haber al menos 1 persona.',
             'comprobante.required'         => 'Adjunta el comprobante de pago.',
+            'comprobante.file'             => 'El comprobante debe ser un archivo válido.',
+            'comprobante.mimes'            => 'El comprobante debe ser una imagen (JPG, PNG) o PDF.',
+            'comprobante.max'              => 'El comprobante no puede superar 5MB.',
         ];
     }
 }

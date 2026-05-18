@@ -6,11 +6,6 @@
     <link rel="stylesheet" href="{{ asset('css/registros.css') }}">
 
     {{-- ── Override: quitar el wrapper de Breeze y centrar con nuestro .card ── --}}
-    <style>
-        /* Anula el layout de x-guest-layout para usar nuestro propio card */
-        body { display:flex; align-items:center; justify-content:center; min-height:100vh; padding:2rem 1rem; }
-    </style>
-
     <div class="card">
 
         {{-- Cabecera --}}
@@ -110,7 +105,7 @@
                 </div>
 
                 {{-- Footer: enlace login + acciones --}}
-                <div class="card-footer" style="margin:1.8rem -2rem -1.8rem; padding-left:2rem; padding-right:2rem;">
+                <div class="card-footer">
                     <p class="footer-note">
                         ¿Ya tienes cuenta? →
                         <a href="{{ route('login') }}">Iniciar sesión</a>

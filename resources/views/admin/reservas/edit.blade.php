@@ -92,7 +92,7 @@
         </div>
       </div>
 
-      <div class="card-footer" style="margin:1.8rem -2rem -1.8rem; padding:0 2rem;">
+      <div class="card-footer">
         <span class="footer-note"><span>*</span> Campos obligatorios</span>
         <div class="footer-actions">
           <a href="{{ route('admin.reservas') }}" class="btn btn-back">Volver</a>

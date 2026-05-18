@@ -54,7 +54,7 @@
                 </div>
 
                 {{-- Footer --}}
-                <div class="card-footer" style="margin:1.8rem -2rem -1.8rem; padding-left:2rem; padding-right:2rem;">
+                <div class="card-footer">
                     <p class="footer-note">
                         ¿Olvidaste tu contraseña? →
                         @if (Route::has('password.request'))

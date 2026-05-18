@@ -44,7 +44,7 @@
                 </div>
 
                 {{-- Footer --}}
-                <div class="card-footer" style="margin:1.8rem -2rem -1.8rem; padding-left:2rem; padding-right:2rem;">
+                <div class="card-footer">
                     <p class="footer-note">
                         ¿Ya recordaste? →
                         <a href="{{ route('login') }}">Iniciar sesión</a>

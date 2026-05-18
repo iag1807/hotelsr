@@ -119,7 +119,7 @@
         </div>
       </div>
 
-      <div class="card-footer" style="margin:1.8rem -2rem -1.8rem; padding:0 2rem;">
+      <div class="card-footer">
         <span class="footer-note"><span>*</span> Campos obligatorios</span>
         <div class="footer-actions">
           <a href="{{ route('admin.reservas') }}" class="btn btn-back">Volver</a>
@@ -147,26 +147,21 @@ function actualizarMinSalida() {
     if (salida.value && salida.value <= ingreso) salida.value = min;
     calcularTotal();
 }
-
 function calcularTotal() {
     const sel      = document.getElementById('habitacion_id');
     const ingreso  = document.getElementById('fecha_ingreso').value;
     const salida   = document.getElementById('fecha_salida').value;
     const personas = parseInt(document.getElementById('numero_personas').value) || 1;
     const totalEl  = document.getElementById('total');
-
     if (!sel.value || !ingreso || !salida) { totalEl.value = ''; return; }
-
     const base      = parseFloat(sel.selectedOptions[0].dataset.precio)    || 0;
     const adicional = parseFloat(sel.selectedOptions[0].dataset.adicional) || 0;
     const extra     = Math.max(0, personas - 1);
     const pNoche    = base + extra * adicional;
     const noches    = Math.round((new Date(salida + 'T00:00:00') - new Date(ingreso + 'T00:00:00')) / 86400000);
-
     if (noches <= 0) { totalEl.value = ''; return; }
     totalEl.value = pNoche * noches;
 }
-
 document.getElementById('habitacion_id').addEventListener('change', calcularTotal);
 document.getElementById('fecha_salida').addEventListener('change', calcularTotal);
 document.getElementById('numero_personas').addEventListener('input', calcularTotal);

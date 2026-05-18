@@ -61,6 +61,7 @@
         <span class="panel-title">Reservas para hoy</span>
       </div>
 
+      <div class="res-table-wrapper">
       <table class="res-table">
         <thead>
           <tr>
@@ -89,6 +90,7 @@
           @endforelse
         </tbody>
       </table>
+      </div>
     </div>
 
   </div>

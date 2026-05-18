@@ -28,7 +28,6 @@
 <form id="form-busqueda" method="GET" action="{{ route('cliente.dashboard') }}">
   <div class="buscador-hotel">
 
-    {{-- Fecha de entrada --}}
     <div class="campo" id="campo-ingreso">
       <label>Fecha de entrada</label>
       <div class="date-display {{ $entrada ? '' : 'empty' }}" id="display-ingreso">
@@ -42,7 +41,6 @@
 
     <div class="linea"></div>
 
-    {{-- Fecha de salida --}}
     <div class="campo" id="campo-salida">
       <label>Fecha de salida</label>
       <div class="date-display {{ $salida ? '' : 'empty' }}" id="display-salida">
@@ -56,7 +54,6 @@
 
     <div class="linea"></div>
 
-    {{-- Personas --}}
     <div class="campo">
       <label>Número de personas</label>
       <input type="number" id="numero_personas" name="personas"
@@ -65,12 +62,11 @@
     </div>
 
     <div class="linea"></div>
-
     <button type="submit" class="btn-buscar2">Buscar</button>
   </div>
 </form>
 
-{{-- ══ Tarjetas de habitaciones ══════════════════════════════════════════════ --}}
+{{-- ══ Tarjetas ════════════════════════════════════════════════════════════════ --}}
 <p class="resultado-busqueda">HABITACIONES DISPONIBLES</p>
 
 @php
@@ -79,12 +75,12 @@ $minimos = [
   'doble'    => 2, 'triple' => 3,  'multiple' => 5,
 ];
 $tarjetas = [
-  'sencilla' => ['img'=>'sencilla.jpeg',  'nombre'=>'Sencilla',  'desc'=>'Cama semidoble, baño privado, televisor.',                            'cap'=>'1 a 2 personas',  'precio'=>'Desde $50.000'],
-  'bañera'   => ['img'=>'bañera.jpeg',    'nombre'=>'Bañera',    'desc'=>'Cama semidoble, baño privado, bañera, televisor.',                    'cap'=>'1 a 2 personas',  'precio'=>'$130.000'],
-  'jacuzzi'  => ['img'=>'jacuzzi.jpeg',   'nombre'=>'Jacuzzi',   'desc'=>'Cama semidoble, baño privado, jacuzzi, televisor.',                   'cap'=>'1 a 2 personas',  'precio'=>'$160.000'],
-  'doble'    => ['img'=>'doble.jpeg',     'nombre'=>'Doble',     'desc'=>'Dos camas semidobles, baño privado, televisor.',                      'cap'=>'2 a 4 personas',  'precio'=>'$110.000'],
-  'triple'   => ['img'=>'triple.jpeg',    'nombre'=>'Triple',    'desc'=>'Una cama semidoble, un camarote, baño privado, televisor.',           'cap'=>'3 a 6 personas',  'precio'=>'$130.000'],
-  'multiple' => ['img'=>'multiple.jpeg',  'nombre'=>'Múltiple',  'desc'=>'Dos camarotes, una cama de un metro, baño privado, televisor.',       'cap'=>'5 a 10 personas', 'precio'=>'$160.000'],
+  'sencilla' => ['img'=>'sencilla.jpeg',  'nombre'=>'Sencilla',  'desc'=>'Cama semidoble, baño privado, televisor.',                          'cap'=>'1 a 2 personas',  'precio'=>'Desde $50.000'],
+  'bañera'   => ['img'=>'bañera.jpeg',    'nombre'=>'Bañera',    'desc'=>'Cama semidoble, baño privado, bañera, televisor.',                  'cap'=>'1 a 2 personas',  'precio'=>'$130.000'],
+  'jacuzzi'  => ['img'=>'jacuzzi.jpeg',   'nombre'=>'Jacuzzi',   'desc'=>'Cama semidoble, baño privado, jacuzzi, televisor.',                 'cap'=>'1 a 2 personas',  'precio'=>'$160.000'],
+  'doble'    => ['img'=>'doble.jpeg',     'nombre'=>'Doble',     'desc'=>'Dos camas semidobles, baño privado, televisor.',                    'cap'=>'2 a 4 personas',  'precio'=>'$110.000'],
+  'triple'   => ['img'=>'triple.jpeg',    'nombre'=>'Triple',    'desc'=>'Una cama semidoble, un camarote, baño privado, televisor.',         'cap'=>'3 a 6 personas',  'precio'=>'$130.000'],
+  'multiple' => ['img'=>'multiple.jpeg',  'nombre'=>'Múltiple',  'desc'=>'Dos camarotes, una cama de un metro, baño privado, televisor.',     'cap'=>'5 a 10 personas', 'precio'=>'$160.000'],
 ];
 @endphp
 
@@ -128,7 +124,7 @@ $tarjetas = [
   </div>
 </section>
 
-{{-- ══ Modal de reserva ═══════════════════════════════════════════════════════ --}}
+{{-- ══ Modal de reserva ════════════════════════════════════════════════════════ --}}
 <div id="modal-reserva" class="modal-overlay" style="display:none;">
   <div class="modal-container">
 
@@ -187,15 +183,22 @@ $tarjetas = [
             <span class="pago-badge comprobante">Comprobante</span>
             <p class="pago-instruccion">Adjunta la foto o captura de pantalla de tu pago</p>
           </div>
+
+          {{-- Input file real — sin JS de conversión a base64 --}}
           <div class="upload-area" id="upload-area"
                onclick="document.getElementById('comprobante-input').click()">
             <div class="upload-icon">📎</div>
             <p class="upload-text">Toca para subir el comprobante</p>
-            <input type="file" id="comprobante-input" accept="image/*,application/pdf"
-                   style="display:none;" onchange="previsualizarComprobante(event)">
+            {{-- accept restringe en el navegador, mimes en el servidor valida el contenido real --}}
+            <input type="file" id="comprobante-input"
+                   accept=".jpg,.jpeg,.png,.pdf"
+                   style="display:none;"
+                   onchange="previsualizarComprobante(event)">
           </div>
+
           <div id="preview-container" style="display:none; flex-direction:column; gap:10px;">
             <img id="preview-img" class="preview-img" alt="Vista previa">
+            <p id="preview-nombre" style="font-size:.78rem;color:var(--gris-claro);text-align:center;"></p>
             <button class="btn-cambiar-archivo" type="button"
                     onclick="document.getElementById('comprobante-input').click()">
               Cambiar archivo
@@ -214,7 +217,6 @@ $tarjetas = [
       <button type="button" class="btn-cancelar" onclick="cerrarModal()">Cancelar</button>
     </div>
 
-    {{-- Confirmación exitosa --}}
     <div id="reserva-exitosa" class="reserva-exitosa" style="display:none;">
       <h3>¡Reserva registrada! ✓</h3>
       <p>Tu reserva ha sido registrada exitosamente.<br>
@@ -244,8 +246,7 @@ $tarjetas = [
   const csrfToken        = document.querySelector('meta[name="csrf-token"]').content;
 
   let habitacionSeleccionadaId = null;
-  let comprobanteBase64        = null;
-  let comprobanteNombre        = null;
+  let archivoComprobante       = null;   // ← File object real, no base64
 
   const fmt = n => '$' + Number(n).toLocaleString('es-CO');
 
@@ -282,9 +283,8 @@ $tarjetas = [
     document.getElementById('res-anticipo').textContent     = fmt(anticipo);
     document.getElementById('qr-monto').textContent         = fmt(anticipo);
 
-    // Reset estado modal
-    comprobanteBase64 = null;
-    comprobanteNombre = null;
+    // Reset comprobante y estado modal
+    archivoComprobante = null;
     document.getElementById('comprobante-input').value          = '';
     document.getElementById('preview-container').style.display  = 'none';
     document.getElementById('upload-area').style.display        = 'flex';
@@ -312,28 +312,50 @@ $tarjetas = [
     if (e.target === document.getElementById('modal-reserva')) cerrarModal();
   });
 
+  // ── Preview del comprobante ─────────────────────────────────────────────────
+  // Solo muestra la imagen si es imagen — no convierte a base64 para enviar
   function previsualizarComprobante(event) {
     const file = event.target.files[0];
     if (!file) return;
+
+    // Validar tamaño en el cliente (5MB) — el servidor también lo valida
     if (file.size > 5 * 1024 * 1024) {
       alert('El archivo no puede superar 5MB.');
+      event.target.value = '';
       return;
     }
-    comprobanteNombre = file.name;
-    const reader = new FileReader();
-    reader.onload = e => {
-      comprobanteBase64 = e.target.result;
-      const img = document.getElementById('preview-img');
-      img.src = file.type.startsWith('image/') ? comprobanteBase64 : '';
-      img.alt = file.name;
-      document.getElementById('preview-container').style.display = 'flex';
-      document.getElementById('upload-area').style.display       = 'none';
-    };
-    reader.readAsDataURL(file);
+
+    // Validar tipo en el cliente — el servidor también valida el contenido real
+    const tiposPermitidos = ['image/jpeg', 'image/png', 'application/pdf'];
+    if (!tiposPermitidos.includes(file.type)) {
+      alert('Solo se permiten imágenes JPG, PNG o archivos PDF.');
+      event.target.value = '';
+      return;
+    }
+
+    // Guardar referencia al File object — NO convertir a base64
+    archivoComprobante = file;
+
+    const img     = document.getElementById('preview-img');
+    const nombre  = document.getElementById('preview-nombre');
+
+    // Solo mostrar preview si es imagen
+    if (file.type.startsWith('image/')) {
+      img.src = URL.createObjectURL(file);
+      img.style.display = 'block';
+    } else {
+      // PDF: mostrar icono en lugar de imagen
+      img.style.display = 'none';
+    }
+
+    nombre.textContent = '📄 ' + file.name;
+    document.getElementById('preview-container').style.display = 'flex';
+    document.getElementById('upload-area').style.display       = 'none';
   }
 
+  // ── Confirmar reserva con FormData ──────────────────────────────────────────
   async function confirmarReserva() {
-    if (!comprobanteBase64) {
+    if (!archivoComprobante) {
       alert('Por favor adjunta el comprobante de pago antes de confirmar.');
       return;
     }
@@ -345,26 +367,34 @@ $tarjetas = [
     txtNorm.style.display = 'none';
     txtLoad.style.display = 'inline';
 
+    // FormData envía el archivo real como multipart/form-data
+    // El servidor lo recibe con $request->file('comprobante')
+    const formData = new FormData();
+    formData.append('id_habitacion', habitacionSeleccionadaId);
+    formData.append('fecha_ingreso', reservaEntrada);
+    formData.append('fecha_salida',  reservaSalida);
+    formData.append('num_personas',  reservaPersonas);
+    formData.append('comprobante',   archivoComprobante);  // ← archivo real
+
     try {
       const resp = await fetch('{{ route("cliente.reservas.store") }}', {
-        method:  'POST',
+        method : 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          // NO incluir Content-Type — el navegador lo pone automáticamente
+          // con el boundary correcto para multipart/form-data
           'X-CSRF-TOKEN': csrfToken,
-          'Accept':       'application/json',
+          'Accept'      : 'application/json',
         },
-        body: JSON.stringify({
-          id_habitacion: habitacionSeleccionadaId,
-          fecha_ingreso: reservaEntrada,
-          fecha_salida:  reservaSalida,
-          num_personas:  reservaPersonas,
-          comprobante:   comprobanteBase64,
-        }),
+        body: formData,
       });
 
       const data = await resp.json();
 
       if (data.exito) {
+        // Limpiar ObjectURL para liberar memoria
+        if (archivoComprobante) {
+          URL.revokeObjectURL(document.getElementById('preview-img').src);
+        }
         document.getElementById('bloque-resumen').style.display  = 'none';
         document.getElementById('bloque-pago').style.display     = 'none';
         document.getElementById('bloque-footer').style.display   = 'none';

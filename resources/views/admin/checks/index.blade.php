@@ -5,8 +5,10 @@
 
 <div class="panel">
   <div class="facturas-header">
-    <h1>CHECKS-IN / CHECKS-OUT</h1>
-    <p>Registra los ingresos y salidas de las reservas confirmadas</p>
+    <div class="facturas-header-text">
+      <h1>CHECKS-IN / CHECKS-OUT</h1>
+      <p>Registra los ingresos y salidas de las reservas confirmadas</p>
+    </div>
   </div>
 
   @if($reservas->isEmpty())

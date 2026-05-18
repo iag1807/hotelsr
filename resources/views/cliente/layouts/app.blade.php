@@ -1,92 +1,117 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hotel Sueño Real</title>
-  <meta name="csrf-token" content="{{ csrf_token() }}">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cal+Sans&display=swap" rel="stylesheet">
-  
-
-  <link rel="stylesheet" href="{{ asset('css/style-clientes.css') }}">
-  <link rel="shortcut icon" href="{{ asset('images/logo.png') }}">
-
-  @stack('styles')
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Hotel Sueño Real</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Cal+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/style-clientes.css') }}">
 </head>
 <body>
 
-{{-- ═══════════════ SIDEBAR ═══════════════ --}}
-<aside class="sidebar">
-  <div class="sidebar-logo">
-    <img src="{{ asset('images/logo.png') }}" alt="Hotel Sueño Real" class="logo-img">
-  </div>
+{{-- ── Backdrop sidebar (mobile) ── --}}
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
 
-  <ul class="nav-links">
-    <li>
-      <a href="{{ route('cliente.dashboard') }}"
-         @class(['active' => request()->routeIs('cliente.dashboard')])>
-        <span class="icon">⌂</span> Inicio
-      </a>
-    </li>
-    <li>
-      <a href="{{ route('cliente.reservas') }}"
-         @class(['active' => request()->routeIs('cliente.reservas')])>
-        <span class="icon">⁘</span> Mis reservas
-      </a>
-    </li>
-    <li>
-      <a href="{{ route('cliente.facturas') }}"
-         @class(['active' => request()->routeIs('cliente.facturas')])>
-        <span class="icon">◳</span> Mis facturas
-      </a>
-    </li>
-    <li>
-      <a href="{{ route('cliente.perfil') }}"
-         @class(['active' => request()->routeIs('cliente.perfil')])>
-        <span class="icon">Ω</span> Mi perfil
-      </a>
-    </li>
-  </ul>
+{{-- ── Botón hamburguesa (mobile/tablet) ── --}}
+<button class="hamburger-cliente" id="hamburger-cliente" aria-label="Abrir menú">
+    <span></span>
+    <span></span>
+    <span></span>
+</button>
 
-  <div class="sidebar-bottom">
-    <form method="POST" action="{{ route('logout') }}">
-      @csrf
-      <button type="submit" class="logout-btn">
-        <span>⏻</span> Cerrar sesión
-      </button>
-    </form>
-  </div>
+{{-- ══ Sidebar ═══════════════════════════════════════════════════════════════ --}}
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+        <img class="logo-img" src="{{ asset('images/logo.png') }}" alt="Hotel Sueño Real">
+    </div>
+
+    <ul class="nav-links">
+        <li>
+            <a href="{{ route('cliente.dashboard') }}"
+               class="{{ request()->routeIs('cliente.dashboard') ? 'active' : '' }}">
+                <span class="icon">⌂</span> Inicio
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('cliente.reservas') }}"
+               class="{{ request()->routeIs('cliente.reservas') ? 'active' : '' }}">
+                <span class="icon">⁘</span> Mis Reservas
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('cliente.facturas') }}"
+               class="{{ request()->routeIs('cliente.facturas*') ? 'active' : '' }}">
+                <span class="icon">◳</span> Mis Facturas
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('cliente.perfil') }}"
+               class="{{ request()->routeIs('cliente.perfil') ? 'active' : '' }}">
+                <span class="icon">Ω</span> Mi Perfil
+            </a>
+        </li>
+    </ul>
+
+    <div class="sidebar-bottom">
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit" class="logout-btn">
+                <span class="icon">⏻</span> Cerrar Sesión
+            </button>
+        </form>
+    </div>
 </aside>
 
-{{-- ═══════════════ MAIN ═══════════════ --}}
-<main class="main">
+{{-- ══ Main ═══════════════════════════════════════════════════════════════════ --}}
+<div class="main">
 
-  <nav class="topnav">
-    <div class="topnav-right">
-      <span class="topnav-date" id="fecha-topnav"></span>
+    {{-- Top nav --}}
+    <nav class="topnav">
+        <span class="topnav-date">
+            {{ now()->locale('es')->isoFormat('D [DE] MMMM [DE] YYYY') }}
+        </span>
+    </nav>
+
+    {{-- Contenido de cada página --}}
+    <div class="content">
+        @yield('contenido')
     </div>
-  </nav>
 
-  {{-- Alertas flash --}}
-  @if(session('success'))
-    <div class="alert alert-success">{{ session('success') }}</div>
-  @endif
-  @if(session('error'))
-    <div class="alert alert-error">{{ session('error') }}</div>
-  @endif
-
-  @yield('contenido')
-
-</main>
+</div>
 
 <script>
-  document.getElementById('fecha-topnav').textContent =
-    new Date().toLocaleDateString('es-ES', { year:'numeric', month:'long', day:'numeric' });
+    const hamburger = document.getElementById('hamburger-cliente');
+    const sidebar   = document.getElementById('sidebar');
+    const backdrop  = document.getElementById('sidebar-backdrop');
+
+    function openSidebar() {
+        sidebar.classList.add('open');
+        backdrop.classList.add('open');
+        hamburger.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeSidebar() {
+        sidebar.classList.remove('open');
+        backdrop.classList.remove('open');
+        hamburger.classList.remove('is-open');
+        document.body.style.overflow = '';
+    }
+
+    hamburger.addEventListener('click', () => {
+        sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
+    });
+
+    backdrop.addEventListener('click', closeSidebar);
+
+    // Cerrar al navegar (click en un link del sidebar)
+    sidebar.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', closeSidebar);
+    });
 </script>
 
 @stack('scripts')
+
 </body>
 </html>
