@@ -33,9 +33,9 @@ class ReservaConfirmada extends Notification
             ->line('Pago inicial realizado: $' . number_format($this->reserva->pago_anticipado, 2, ',', '.'))
             ->line('Saldo pendiente: $' . number_format($this->reserva->saldoPendiente(), 2, ',', '.'))
             ->line('---')
-            ->line('Por favor, completa el pago del saldo pendiente antes de tu fecha de ingreso.')
+            ->line('Por favor, completa el pago del saldo pendiente al momento de hacer el check-in.')
             ->action('Ver mi reserva', route('cliente.reservas'))
-            ->line('Si tienes alguna pregunta, no dudes en contactarnos.')
+            ->line('Si tienes alguna pregunta, no dudes en contactarnos -> 3226483067')
             ->salutation('¡Te esperamos en Hotel Sueño Real!');
     }
 }

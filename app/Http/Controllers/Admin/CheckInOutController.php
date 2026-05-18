@@ -16,6 +16,7 @@ class CheckInOutController extends Controller
     {
         $reservas = Reserva::with(['user', 'habitacion', 'checkIn'])
             ->where('estado', 'confirmada')
+            ->whereDate('fecha_ingreso', today())
             ->orderBy('fecha_ingreso')
             ->get();
 
