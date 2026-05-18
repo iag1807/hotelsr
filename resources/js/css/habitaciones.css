@@ -425,6 +425,7 @@ footer {
 
 /* ── ≤767px ── */
 @media (max-width: 767px) {
+    .habitacion-main { padding: 16px 0; }
     header { height: 60px; padding: 0 12px; gap: 8px; }
     .logo { width: 40px; height: 40px; }
     .titulo { font-size: 1.05rem; letter-spacing: 0.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; justify-content: center; }
@@ -451,6 +452,7 @@ footer {
 
 /* ── ≤430px ── */
 @media (max-width: 430px) {
+    .habitacion-main { padding: 14px 0; }
     header { height: 54px; padding: 0 10px; gap: 6px; }
     .logo { width: 36px; height: 36px; }
     .titulo { font-size: 0.9rem; }
@@ -465,6 +467,7 @@ footer {
 
 /* ── ≤375px ── */
 @media (max-width: 375px) {
+    .habitacion-main { padding: 12px 0; }
     header { height: 50px; padding: 0 8px; gap: 4px; }
     .logo { width: 32px; height: 32px; }
     .titulo { font-size: 0.8rem; }
@@ -485,11 +488,11 @@ footer {
 
 /* ── ≤320px ── */
 @media (max-width: 320px) {
+    .habitacion-main { padding: 10px 0; }
     header { height: 46px; padding: 0 6px; gap: 4px; }
     .logo { width: 28px; height: 28px; }
     .titulo { font-size: 0.7rem; letter-spacing: 0; }
     .volver-btn { font-size: 0.5rem; padding: 3px 6px; border-radius: 12px; }
-    .contenedor { padding: 0 8px; margin: 10px auto; margin-top: -30px; gap: 10px; }
     .imagen-principal { height: 160px; }
     .imagen { height: 54px; }
     .seccion-detalles { padding: 12px 8px; }
