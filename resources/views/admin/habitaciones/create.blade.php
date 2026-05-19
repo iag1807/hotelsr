@@ -1,5 +1,5 @@
 @extends('admin.layouts.app')
-@section('titulo', 'Registrar Huésped')
+@section('titulo', 'Registrar Habitación')
 
 @section('contenido')
 
@@ -7,8 +7,8 @@
 <div class="card">
   <div class="card-header">
     <div>
-      <div class="header-title">Registrar Huésped</div>
-      <div class="header-sub">Nuevo registro</div>
+      <div class="header-title">Registrar Habitación</div>
+      <div class="header-sub">Nueva habitación</div>
     </div>
   </div>
 
@@ -21,23 +21,25 @@
       </div>
     @endif
 
-    <form method="POST" action="{{ route('admin.clientes.store') }}">
+    <form method="POST" action="{{ route('admin.habitaciones.store') }}">
       @csrf
 
       <div class="form-section">
         <div class="form-grid col-2">
           <div class="field">
-            <label>Tipo de documento</label>
-            <select name="tipo_documento" required>
-              <option value="">Seleccione…</option>
-              @foreach(['CC'=>'C.C — Cédula de ciudadanía','TI'=>'T.I — Tarjeta de identidad','CE'=>'C.E — Cédula de extranjería','PAS'=>'Pasaporte'] as $val => $label)
-                <option value="{{ $val }}" {{ old('tipo_documento') === $val ? 'selected' : '' }}>{{ $label }}</option>
-              @endforeach
-            </select>
+            <label>Número</label>
+            <input type="text" name="numero" value="{{ old('numero') }}" required>
           </div>
           <div class="field">
-            <label>Número de documento</label>
-            <input type="text" name="documento" value="{{ old('documento') }}" required>
+            <label>Tipo de habitación</label>
+            <select name="tipo_habitacion" required>
+              <option value="">Seleccione…</option>
+              @foreach(['sencilla','bañera','jacuzzi','doble','triple','multiple'] as $t)
+                <option value="{{ $t }}" {{ old('tipo_habitacion') === $t ? 'selected' : '' }}>
+                  {{ ucfirst($t) }}
+                </option>
+              @endforeach
+            </select>
           </div>
         </div>
       </div>
@@ -45,53 +47,25 @@
       <div class="form-section">
         <div class="form-grid col-2">
           <div class="field">
-            <label>Nombre completo</label>
-            <input type="text" name="name" value="{{ old('name') }}" required>
+            <label>Capacidad</label>
+            <input type="number" name="capacidad" min="1" value="{{ old('capacidad') }}" required>
           </div>
           <div class="field">
-            <label>Correo electrónico</label>
-            <input type="email" name="email" value="{{ old('email') }}" required>
+            <label>Precio</label>
+            <input type="number" name="precio" min="0" step="0.01" value="{{ old('precio') }}" required>
           </div>
         </div>
         <div class="form-grid col-2" style="margin-top:1rem">
           <div class="field">
-            <label>Contraseña</label>
-            <input type="password" name="password" required>
+            <label>Descripción</label>
+            <input type="text" name="descripcion" value="{{ old('descripcion') }}" required>
           </div>
-          <div class="field">
-            <label>Celular</label>
-            <input type="text" name="celular" value="{{ old('celular') }}" required>
-          </div>
-        </div>
-      </div>
-
-      <div class="form-section">
-        <div class="form-grid col-2">
-          <div class="field">
-            <label>Género</label>
-            <select name="genero" required>
-              <option value="">Seleccione…</option>
-              <option value="masculino" {{ old('genero') === 'masculino' ? 'selected' : '' }}>Masculino</option>
-              <option value="femenino"  {{ old('genero') === 'femenino'  ? 'selected' : '' }}>Femenino</option>
-              <option value="otro"      {{ old('genero') === 'otro'      ? 'selected' : '' }}>Otro</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>Rol</label>
-            <select name="rol" required>
-              <option value="">Seleccione…</option>
-              <option value="cliente" {{ old('rol') === 'cliente' ? 'selected' : '' }}>Cliente</option>
-              <option value="admin"   {{ old('rol') === 'admin'   ? 'selected' : '' }}>Administrador</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-grid" style="margin-top:1rem">
           <div class="field">
             <label>Estado</label>
             <select name="estado" required>
               <option value="">Seleccione…</option>
-              <option value="activo"   {{ old('estado') === 'activo'   ? 'selected' : '' }}>Activo</option>
-              <option value="inactivo" {{ old('estado') === 'inactivo' ? 'selected' : '' }}>Inactivo</option>
+              <option value="disponible"    {{ old('estado') === 'disponible'    ? 'selected' : '' }}>Disponible</option>
+              <option value="mantenimiento" {{ old('estado') === 'mantenimiento' ? 'selected' : '' }}>Mantenimiento</option>
             </select>
           </div>
         </div>
@@ -101,7 +75,7 @@
         <span class="footer-note"><span>*</span> Campos obligatorios</span>
         <div class="footer-actions">
           <a href="{{ route('admin.habitaciones') }}" class="btn btn-back">Volver</a>
-          <button type="submit" class="btn btn-submit">Registrar huésped</button>
+          <button type="submit" class="btn btn-submit">Registrar habitación</button>
         </div>
       </div>
 
@@ -109,4 +83,5 @@
   </div>
 </div>
 </div>
+
 @endsection

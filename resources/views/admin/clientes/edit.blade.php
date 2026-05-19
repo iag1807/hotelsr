@@ -44,8 +44,8 @@
         <div class="form-grid col-2">
           <div class="field">
             <label>Teléfono</label>
-            <input type="text" name="telefono"
-                   value="{{ old('telefono', $cliente->telefono) }}">
+            <input type="text" name="celular"
+                   value="{{ old('celular', $cliente->celular) }}">
           </div>
           <div class="field">
             <label>Estado</label>
